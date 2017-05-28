@@ -55,7 +55,7 @@ public class BaseUserServiceImplIT extends BaseIntegrationTest {
 
 		User readUser = userService.readOne(userToModify.getId());
 
-		assertThat(readUser.getEmail()).isEqualToIgnoringCase(userToModify.getEmail());
+		assertThat(readUser.getEmail()).isEqualToIgnoringCase(NEW_EMAIL);
 	}
 
 	private User generateAndSaveUser() {

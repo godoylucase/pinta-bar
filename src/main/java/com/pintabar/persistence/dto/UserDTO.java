@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @AllArgsConstructor
 @Builder
 @XmlRootElement
-public class UserDTO implements BaseDTO {
+public class UserDTO extends BaseDTO {
 	private String username;
 	private String email;
 }

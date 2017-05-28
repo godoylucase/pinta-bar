@@ -12,9 +12,16 @@ public class UserDTOMapper implements GenericDTOMapper<User, UserDTO> {
 
 	@Override
 	public UserDTO mapToDTO(User user) {
-		return UserDTO.builder()
-				.username(user.getUsername())
-				.email(user.getEmail())
-				.build();
+		if (user != null) {
+			UserDTO userDTO = UserDTO.builder()
+					.username(user.getUsername())
+					.email(user.getEmail())
+					.build();
+			userDTO.setUuid(user.getUuid());
+			userDTO.setCreatedOn(user.getCreatedOn());
+			userDTO.setUpdatedOn(user.getUpdatedOn());
+			return userDTO;
+		}
+		return null;
 	}
 }
