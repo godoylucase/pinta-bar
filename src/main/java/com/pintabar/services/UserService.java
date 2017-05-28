@@ -21,4 +21,6 @@ public interface UserService<T, ID> extends GenericService<T, ID> {
 	List<UserDTO> getUsers();
 
 	String createUser(UserDTO userDTO);
+
+	Optional<UserDTO> deleteUser(String uuid);
 }

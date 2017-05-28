@@ -1,5 +1,7 @@
 package com.pintabar.persistence.dto;
 
+import com.pintabar.persistence.entities.user.profile.UserProfile;
+import com.pintabar.persistence.interfaces.IUser;
 import lombok.*;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -13,7 +15,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @AllArgsConstructor
 @Builder
 @XmlRootElement
-public class UserDTO extends BaseDTO {
+public class UserDTO extends BaseDTO implements IUser {
 	private String username;
 	private String email;
+	private boolean deleted = false;
 }

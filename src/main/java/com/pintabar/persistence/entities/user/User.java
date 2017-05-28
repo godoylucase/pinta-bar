@@ -3,6 +3,7 @@ package com.pintabar.persistence.entities.user;
 import com.pintabar.persistence.entities.base.UUIDBaseEntity;
 import com.pintabar.persistence.entities.user.profile.UserProfile;
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -23,6 +24,8 @@ import java.util.List;
 public class User extends UUIDBaseEntity {
 	private String username;
 	private String email;
+	@Type(type = "yes_no")
+	private boolean deleted = false;
 
 	@OneToMany(mappedBy = "user")
 	private List<UserProfile> userProfiles = new ArrayList<>();

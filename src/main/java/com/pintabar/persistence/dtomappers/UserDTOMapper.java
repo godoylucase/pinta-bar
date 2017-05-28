@@ -16,6 +16,7 @@ public class UserDTOMapper implements GenericDTOMapper<User, UserDTO> {
 			UserDTO userDTO = UserDTO.builder()
 					.username(user.getUsername())
 					.email(user.getEmail())
+					.deleted(user.isDeleted())
 					.build();
 			userDTO.setUuid(user.getUuid());
 			userDTO.setCreatedOn(user.getCreatedOn());

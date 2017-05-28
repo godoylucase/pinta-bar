@@ -29,6 +29,7 @@
             <column name="email" type="VARCHAR(255)">
                 <constraints nullable="false" unique="true"/>
             </column>
+            <column name="deleted" type="CHAR(1)" defaultValue="N"/>
         </createTable>
     </changeSet>
 

@@ -11,6 +11,7 @@ import org.springframework.util.StringUtils;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by lucasgodoy on 12/03/17.
@@ -78,6 +79,19 @@ public class UserServiceImpl extends GenericServiceImpl<User, Long>
 			}
 		}
 		return null;
+	}
+
+	@Override
+	@Transactional
+	public Optional<UserDTO> deleteUser(String uuid) {
+		if (!StringUtils.isEmpty(uuid)) {
+			User user = userRepository.findByUuid(uuid);
+			if (user != null) {
+				user.setDeleted(true);
+			}
+			return Optional.ofNullable(userDTOMapper.mapToDTO(user));
+		}
+		return Optional.empty();
 	}
 
 	@Inject
