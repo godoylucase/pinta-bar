@@ -1,12 +1,13 @@
 package com.pintabar.services;
 
-import com.pintabar.entities.entities.user.User;
-
-import java.io.Serializable;
+import com.pintabar.persistence.dto.UserDTO;
 
 /**
  * Created by lucasgodoy on 12/03/17.
  */
-public interface UserService<T extends User, ID extends Serializable>
-		extends GenericService<T, ID> {
+public interface UserService<T, ID> extends GenericService<T, ID> {
+
+	UserDTO getUser(Long id);
+
+	UserDTO getUser(String uuid);
 }

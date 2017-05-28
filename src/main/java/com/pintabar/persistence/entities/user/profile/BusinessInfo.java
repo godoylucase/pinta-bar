@@ -1,4 +1,4 @@
-package com.pintabar.entities.entities.user.profile;
+package com.pintabar.persistence.entities.user.profile;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,6 +1,6 @@
 package com.pintabar.repositories;
 
-import com.pintabar.entities.entities.user.User;
+import com.pintabar.persistence.entities.user.User;
 
 /**
  * Created by lucasgodoy on 10/03/17.

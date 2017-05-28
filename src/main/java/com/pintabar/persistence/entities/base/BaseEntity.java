@@ -1,4 +1,4 @@
-package com.pintabar.entities.entities.base;
+package com.pintabar.persistence.entities.base;
 
 import lombok.Getter;
 import lombok.Setter;

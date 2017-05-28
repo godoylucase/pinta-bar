@@ -1,11 +1,12 @@
 package com.pintabar.services;
 
 import com.pintabar.BaseIntegrationTest;
-import com.pintabar.entities.entities.user.User;
+import com.pintabar.persistence.entities.user.User;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.inject.Inject;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -14,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class BaseUserServiceImplIT extends BaseIntegrationTest {
 
-	@Autowired
+	@Inject
 	private UserServiceImpl userService;
 
 	private static User firstUser;

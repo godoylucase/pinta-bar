@@ -12,6 +12,8 @@ public interface GenericService<T, ID> {
 
 	List<T> readAll(List<ID> ids);
 
+	T readOneByUuid(String uuid);
+
 	/**
 	 * Lazy load
 	 *

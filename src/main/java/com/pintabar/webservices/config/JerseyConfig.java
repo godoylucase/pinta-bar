@@ -1,6 +1,6 @@
-package com.pintabar.rest.config;
+package com.pintabar.webservices.config;
 
-import com.pintabar.rest.services.UserAPI;
+import com.pintabar.webservices.apis.UserAPI;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.stereotype.Component;
 

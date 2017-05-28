@@ -1,4 +1,4 @@
-package com.pintabar.entities.entities.base;
+package com.pintabar.persistence.entities.base;
 
 /**
  * Created by lucasgodoy on 7/03/17.

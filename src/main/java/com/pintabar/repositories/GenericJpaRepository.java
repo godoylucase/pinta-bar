@@ -10,4 +10,7 @@ import java.io.Serializable;
  */
 @NoRepositoryBean
 public interface GenericJpaRepository<T, ID extends Serializable> extends JpaRepository<T, ID> {
+
+	T findByUuid(String uuid);
+
 }

@@ -1,7 +1,7 @@
-package com.pintabar.entities.entities.user;
+package com.pintabar.persistence.entities.user;
 
-import com.pintabar.entities.entities.base.UUIDBaseEntity;
-import com.pintabar.entities.entities.user.profile.UserProfile;
+import com.pintabar.persistence.entities.base.UUIDBaseEntity;
+import com.pintabar.persistence.entities.user.profile.UserProfile;
 import lombok.*;
 
 import javax.persistence.Entity;

@@ -37,6 +37,11 @@ public class GenericServiceImpl<T, ID extends Serializable>
 		return genericJpaRepository.findAll();
 	}
 
+	@Transactional(readOnly = true)
+	public T readOneByUuid(String uuid) {
+		return (T) genericJpaRepository.findByUuid(uuid);
+	}
+
 	@Override
 	public T findOne(ID id) {
 		return (T) genericJpaRepository.getOne(id);
