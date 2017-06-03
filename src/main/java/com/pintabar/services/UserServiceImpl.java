@@ -3,7 +3,7 @@ package com.pintabar.services;
 import com.pintabar.persistence.dto.UserDTO;
 import com.pintabar.persistence.dtomappers.UserDTOMapper;
 import com.pintabar.persistence.entities.user.User;
-import com.pintabar.repositories.UserRepository;
+import com.pintabar.persistence.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;

@@ -1,6 +1,6 @@
 package com.pintabar.services;
 
-import com.pintabar.repositories.GenericJpaRepository;
+import com.pintabar.persistence.repositories.GenericJpaRepository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 

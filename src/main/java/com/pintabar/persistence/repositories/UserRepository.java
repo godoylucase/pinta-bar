@@ -1,4 +1,4 @@
-package com.pintabar.repositories;
+package com.pintabar.persistence.repositories;
 
 import com.pintabar.persistence.entities.user.User;
 
