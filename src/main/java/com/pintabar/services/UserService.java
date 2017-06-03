@@ -10,17 +10,17 @@ import java.util.Optional;
  */
 public interface UserService<T, ID> extends GenericService<T, ID> {
 
-	UserDTO getUser(Long id);
+	Optional<UserDTO> getUser(Long id);
 
-	UserDTO getUser(String uuid);
+	Optional<UserDTO> getUser(String uuid);
 
-	UserDTO getUserByUserName(String username);
+	Optional<UserDTO> getUserByUserName(String username);
 
-	UserDTO getUserByEmail(String email);
+	Optional<UserDTO> getUserByEmail(String email);
 
 	List<UserDTO> getUsers();
 
-	String createUser(UserDTO userDTO);
+	Optional<UserDTO> createUser(UserDTO userDTO);
 
 	Optional<UserDTO> deleteUser(String uuid);
 }

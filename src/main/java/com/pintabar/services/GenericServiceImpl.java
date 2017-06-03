@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by lucasgodoy on 12/03/17.
@@ -27,8 +28,8 @@ public class GenericServiceImpl<T, ID extends Serializable>
 
 	@Override
 	@Transactional(readOnly = true)
-	public T readOne(ID id) {
-		return (T) genericJpaRepository.findOne(id);
+	public Optional<T> readOne(ID id) {
+		return Optional.ofNullable((T) genericJpaRepository.findOne(id));
 	}
 
 	@Override

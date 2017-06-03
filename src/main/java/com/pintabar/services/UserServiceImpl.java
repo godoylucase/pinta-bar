@@ -29,67 +29,64 @@ public class UserServiceImpl extends GenericServiceImpl<User, Long>
 	}
 
 	@Override
-	public UserDTO getUser(Long id) {
-		User user = this.readOne(id);
-		return userDTOMapper.mapToDTO(user);
+	public Optional<UserDTO> getUser(Long id) {
+		Optional<User> user = this.readOne(id);
+		return userDTOMapper.mapToDTO(user.orElse(null));
 	}
 
 	@Override
-	public UserDTO getUser(String uuid) {
-		User user = userRepository.findByUuid(uuid);
-		return userDTOMapper.mapToDTO(user);
+	public Optional<UserDTO> getUser(String uuid) {
+		Optional<User> user = userRepository.findByUuid(uuid);
+		return userDTOMapper.mapToDTO(user.orElse(null));
 	}
 
 	@Override
-	public UserDTO getUserByUserName(String username) {
-		User user = userRepository.findByUsername(username);
-		return userDTOMapper.mapToDTO(user);
+	public Optional<UserDTO> getUserByUserName(String username) {
+		Optional<User> user = userRepository.findByUsername(username);
+		return userDTOMapper.mapToDTO(user.orElse(null));
 	}
 
 	@Override
-	public UserDTO getUserByEmail(String email) {
-		User user = userRepository.findByEmail(email);
-		return userDTOMapper.mapToDTO(user);
+	public Optional<UserDTO> getUserByEmail(String email) {
+		Optional<User> user = userRepository.findByEmail(email);
+		return userDTOMapper.mapToDTO(user.orElse(null));
 	}
 
 	@Override
 	public List<UserDTO> getUsers() {
 		List<User> users = userRepository.findAll();
 		List<UserDTO> userDTOs = new ArrayList<>();
-		users.forEach(u -> userDTOs.add(userDTOMapper.mapToDTO(u)));
+		users.forEach(u -> userDTOs.add(userDTOMapper.mapToDTO(u).get()));
 		return userDTOs;
 	}
 
 	@Override
 	@Transactional
-	public String createUser(UserDTO userDTO) {
+	public Optional<UserDTO> createUser(UserDTO userDTO) {
+		User user = null;
 		if (!StringUtils.isEmpty(userDTO.getEmail())
 				&& !StringUtils.isEmpty(userDTO.getUsername())) {
-			// refactor to Optional
-			UserDTO emailExist = getUserByEmail(userDTO.getEmail());
-			UserDTO usernameExist = getUserByUserName(userDTO.getUsername());
+			Optional<UserDTO> emailExist = getUserByEmail(userDTO.getEmail());
+			Optional<UserDTO> usernameExist = getUserByUserName(userDTO.getUsername());
 
-			if (emailExist == null && usernameExist == null) {
-				User user = User.builder()
+			if (!emailExist.isPresent() && !usernameExist.isPresent()) {
+				user = User.builder()
 						.username(userDTO.getUsername())
 						.email(userDTO.getEmail())
 						.build();
-				save(user);
-				return user.getUuid();
+				user = save(user);
 			}
 		}
-		return null;
+		return userDTOMapper.mapToDTO(user);
 	}
 
 	@Override
 	@Transactional
 	public Optional<UserDTO> deleteUser(String uuid) {
 		if (!StringUtils.isEmpty(uuid)) {
-			User user = userRepository.findByUuid(uuid);
-			if (user != null) {
-				user.setDeleted(true);
-			}
-			return Optional.ofNullable(userDTOMapper.mapToDTO(user));
+			Optional<User> user = userRepository.findByUuid(uuid);
+			user.ifPresent(u -> u.setDeleted(true));
+			return userDTOMapper.mapToDTO(user.orElse(null));
 		}
 		return Optional.empty();
 	}

@@ -1,6 +1,7 @@
 package com.pintabar.services;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by lucasgodoy on 12/03/17.
@@ -8,7 +9,7 @@ import java.util.List;
 public interface GenericService<T, ID> {
 	T save(T entity);
 
-	T readOne(ID id);
+	Optional<T> readOne(ID id);
 
 	List<T> readAll(List<ID> ids);
 

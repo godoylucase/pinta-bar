@@ -4,6 +4,9 @@ import com.pintabar.persistence.dto.UserDTO;
 import com.pintabar.persistence.entities.user.User;
 import org.springframework.stereotype.Component;
 
+import javax.validation.constraints.Null;
+import java.util.Optional;
+
 /**
  * Created by lucasgodoy on 21/03/17.
  */
@@ -11,9 +14,10 @@ import org.springframework.stereotype.Component;
 public class UserDTOMapper implements GenericDTOMapper<User, UserDTO> {
 
 	@Override
-	public UserDTO mapToDTO(User user) {
+	public Optional<UserDTO> mapToDTO(@Null User user) {
+		UserDTO userDTO = null;
 		if (user != null) {
-			UserDTO userDTO = UserDTO.builder()
+			userDTO = UserDTO.builder()
 					.username(user.getUsername())
 					.email(user.getEmail())
 					.deleted(user.isDeleted())
@@ -21,8 +25,7 @@ public class UserDTOMapper implements GenericDTOMapper<User, UserDTO> {
 			userDTO.setUuid(user.getUuid());
 			userDTO.setCreatedOn(user.getCreatedOn());
 			userDTO.setUpdatedOn(user.getUpdatedOn());
-			return userDTO;
 		}
-		return null;
+		return Optional.ofNullable(userDTO);
 	}
 }

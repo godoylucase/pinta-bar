@@ -5,7 +5,6 @@ import com.pintabar.services.UserService;
 import com.pintabar.services.UserServiceImpl;
 import org.springframework.stereotype.Component;
 
-import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.util.List;
@@ -28,21 +27,29 @@ public class UserAPI {
 
 	@GET
 	@Path("/{uuid}")
-	public UserDTO getUser(@PathParam("uuid") String uuid) {
-		return userService.getUser(uuid);
+	public Response getUser(@PathParam("uuid") String uuid) {
+		Optional user = userService.getUser(uuid);
+		if (user.isPresent()) {
+			return Response.ok(user.get()).build();
+		} else {
+			return Response.noContent().build();
+		}
 	}
 
 	@GET
-	public List<UserDTO> getUsers() {
+	public List getUsers() {
 		return userService.getUsers();
 	}
 
 	@POST
 	public Response createUser(UserDTO userDTO, @Context UriInfo uriInfo) {
-		String uuid = userService.createUser(userDTO);
-		UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
-		uriBuilder.path(uuid);
-		return Response.created(uriBuilder.build()).build();
+		Optional<UserDTO> user = userService.createUser(userDTO);
+		if (user.isPresent()) {
+			UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
+			uriBuilder.path(user.get().getUuid());
+			return Response.created(uriBuilder.build()).build();
+		}
+		return Response.status(Response.Status.CONFLICT).build();
 	}
 
 	@DELETE

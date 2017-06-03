@@ -30,7 +30,7 @@ public class BaseUserServiceImplIT extends BaseIntegrationTest {
 
 	@Test
 	public void saveUser_Test() {
-		User readUser = userService.readOne(firstUser.getId());
+		User readUser = userService.readOne(firstUser.getId()).get();
 
 		assertThat(firstUser.getEmail()).isEqualToIgnoringCase(readUser.getEmail());
 		assertThat(firstUser.getUsername()).isEqualToIgnoringCase(readUser.getUsername());
@@ -38,10 +38,10 @@ public class BaseUserServiceImplIT extends BaseIntegrationTest {
 
 	@Test
 	public void readOnlyMethodDoesNotChangeUserValuesOutsideOfTransaction_Test() {
-		User userToModify = userService.readOne(firstUser.getId());
+		User userToModify = userService.readOne(firstUser.getId()).get();
 		userToModify.setEmail("info@pintabar.com");
 
-		User originalUser = userService.readOne(firstUser.getId());
+		User originalUser = userService.readOne(firstUser.getId()).get();
 
 		assertThat(userToModify.getEmail()).isNotEqualToIgnoringCase(originalUser.getEmail());
 	}
@@ -53,7 +53,7 @@ public class BaseUserServiceImplIT extends BaseIntegrationTest {
 		User userToModify = userService.findOne(firstUser.getId());
 		userToModify.setEmail(NEW_EMAIL);
 
-		User readUser = userService.readOne(userToModify.getId());
+		User readUser = userService.readOne(userToModify.getId()).get();
 
 		assertThat(readUser.getEmail()).isEqualToIgnoringCase(NEW_EMAIL);
 	}
