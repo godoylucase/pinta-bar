@@ -30,8 +30,8 @@ public class UserServiceImpl extends GenericServiceImpl<User, Long>
 
 	@Override
 	public Optional<UserDTO> getUser(Long id) {
-		Optional<User> user = this.readOne(id);
-		return userDTOMapper.mapToDTO(user.orElse(null));
+		User user = userRepository.findOne(id);
+		return userDTOMapper.mapToDTO(user);
 	}
 
 	@Override
@@ -74,7 +74,7 @@ public class UserServiceImpl extends GenericServiceImpl<User, Long>
 						.username(userDTO.getUsername())
 						.email(userDTO.getEmail())
 						.build();
-				user = save(user);
+				user = userRepository.save(user);
 			}
 		}
 		return userDTOMapper.mapToDTO(user);

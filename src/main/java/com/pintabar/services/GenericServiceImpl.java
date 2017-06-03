@@ -17,39 +17,8 @@ public class GenericServiceImpl<T, ID extends Serializable>
 
 	private final GenericJpaRepository genericJpaRepository;
 
-	protected GenericServiceImpl(GenericJpaRepository genericJpaRepository) {
+	GenericServiceImpl(GenericJpaRepository genericJpaRepository) {
 		this.genericJpaRepository = genericJpaRepository;
 	}
 
-	@Override
-	public T save(T entity) {
-		return (T) genericJpaRepository.save(entity);
-	}
-
-	@Override
-	@Transactional(readOnly = true)
-	public Optional<T> readOne(ID id) {
-		return Optional.ofNullable((T) genericJpaRepository.findOne(id));
-	}
-
-	@Override
-	@Transactional(readOnly = true)
-	public List<T> readAll(List<ID> ids) {
-		return genericJpaRepository.findAll();
-	}
-
-	@Transactional(readOnly = true)
-	public T readOneByUuid(String uuid) {
-		return (T) genericJpaRepository.findByUuid(uuid);
-	}
-
-	@Override
-	public T findOne(ID id) {
-		return (T) genericJpaRepository.getOne(id);
-	}
-
-	@Override
-	public List<T> findAll(List<ID> ids) {
-		return genericJpaRepository.findAll();
-	}
 }

@@ -15,5 +15,4 @@ import java.util.Optional;
 public interface GenericJpaRepository<T, ID extends Serializable> extends JpaRepository<T, ID> {
 
 	Optional<T> findByUuid(String uuid);
-
 }
