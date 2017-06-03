@@ -1,7 +1,5 @@
 package com.pintabar.persistence.interfaces;
 
-import java.util.List;
-
 /**
  * Created by lucasgodoy on 2/06/17.
  */

@@ -5,8 +5,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * Created by lucasgodoy on 12/03/17.

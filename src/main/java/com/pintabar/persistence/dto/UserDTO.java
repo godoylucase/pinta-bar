@@ -1,6 +1,5 @@
 package com.pintabar.persistence.dto;
 
-import com.pintabar.persistence.entities.user.profile.UserProfile;
 import com.pintabar.persistence.interfaces.IUser;
 import lombok.*;
 
