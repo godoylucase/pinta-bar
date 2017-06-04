@@ -18,7 +18,7 @@ public interface UserService<T, ID> extends GenericService<T, ID> {
 
 	Optional<UserDTO> getUserByEmail(String email);
 
-	List<UserDTO> getUsers(boolean isDeleted);
+	List<UserDTO> getUsers(Boolean isDeleted);
 
 	Optional<UserDTO> createUser(UserDTO userDTO);
 

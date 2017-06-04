@@ -9,8 +9,10 @@ import com.querydsl.core.types.Predicate;
 public class UserPredicates {
 
 
-	public static Predicate deletedUser(boolean isDeleted) {
-		if (isDeleted) {
+	public static Predicate deletedUser(Boolean isDeleted) {
+		if (isDeleted == null) {
+			return null;
+		} else if (isDeleted) {
 			return QUser.user.deleted.isTrue();
 		}
 		return QUser.user.deleted.isFalse();

@@ -6,7 +6,9 @@ import com.pintabar.persistence.dtomappers.UserDTOMapper;
 import com.pintabar.persistence.entities.user.User;
 import com.pintabar.persistence.querydsl.predicates.UserPredicates;
 import com.pintabar.persistence.repositories.UserRepository;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -56,7 +58,7 @@ public class UserServiceImpl extends GenericServiceImpl<User, Long>
 	}
 
 	@Override
-	public List<UserDTO> getUsers(boolean isDeleted) {
+	public List<UserDTO> getUsers(Boolean isDeleted) {
 		Predicate searchPredicate = UserPredicates.deletedUser(isDeleted);
 		List<User> users = Lists.newArrayList(userRepository.findAll(searchPredicate));
 		return users.stream()
