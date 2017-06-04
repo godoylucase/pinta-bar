@@ -1,6 +1,7 @@
 package com.pintabar.persistence.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,7 +13,8 @@ import java.util.Optional;
  */
 @NoRepositoryBean
 @Transactional
-public interface GenericJpaRepository<T, ID extends Serializable> extends JpaRepository<T, ID> {
+public interface GenericJpaRepository<T, ID extends Serializable> extends JpaRepository<T, ID>,
+		QueryDslPredicateExecutor<T> {
 
 	Optional<T> findByUuid(String uuid);
 }

@@ -37,8 +37,8 @@ public class UserAPI {
 	}
 
 	@GET
-	public List getUsers() {
-		return userService.getUsers();
+	public List getUsers(@QueryParam("deleted") boolean isDeleted) {
+		return userService.getUsers(isDeleted);
 	}
 
 	@POST
