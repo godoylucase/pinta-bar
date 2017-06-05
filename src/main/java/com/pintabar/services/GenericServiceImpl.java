@@ -9,7 +9,6 @@ import java.io.Serializable;
 /**
  * Created by lucasgodoy on 12/03/17.
  */
-@Transactional(propagation = Propagation.REQUIRED)
 public class GenericServiceImpl<T, ID extends Serializable>
 		implements GenericService<T, ID> {
 
