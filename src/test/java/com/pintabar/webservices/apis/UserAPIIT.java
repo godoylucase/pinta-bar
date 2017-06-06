@@ -1,7 +1,7 @@
 package com.pintabar.webservices.apis;
 
 import com.google.common.collect.Lists;
-import com.pintabar.BaseRestIntegrationTest;
+import com.pintabar.AbstractBaseRestIntegrationTest;
 import com.pintabar.persistence.dto.UserDTO;
 import com.pintabar.persistence.entities.user.User;
 import com.pintabar.persistence.repositories.UserRepository;
@@ -24,7 +24,7 @@ import static org.hamcrest.Matchers.*;
 /**
  * Created by lucasgodoy on 5/06/17.
  */
-public class UserAPIIT extends BaseRestIntegrationTest {
+public class UserAPIIT extends AbstractBaseRestIntegrationTest {
 
 	private final static String USER_API_PATH = "/api/user";
 

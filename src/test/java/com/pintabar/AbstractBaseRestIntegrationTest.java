@@ -20,7 +20,7 @@ import static com.jayway.restassured.RestAssured.given;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-public abstract class BaseRestIntegrationTest {
+public abstract class AbstractBaseRestIntegrationTest {
 
 	@LocalServerPort
 	protected int serverPort;
