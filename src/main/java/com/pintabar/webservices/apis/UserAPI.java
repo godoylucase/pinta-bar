@@ -4,6 +4,7 @@ import com.pintabar.persistence.dto.UserDTO;
 import com.pintabar.services.UserService;
 import com.pintabar.services.UserServiceImpl;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
@@ -37,8 +38,11 @@ public class UserAPI {
 	}
 
 	@GET
-	public List getUsers(@QueryParam("deleted") Boolean isDeleted) {
-		return userService.getUsers(isDeleted);
+	public List getUsers(@QueryParam("deleted") String isDeleted) {
+		if(StringUtils.isEmpty(isDeleted)) {
+			return userService.getUsers(null);
+		}
+		return userService.getUsers(Boolean.valueOf(isDeleted));
 	}
 
 	@POST

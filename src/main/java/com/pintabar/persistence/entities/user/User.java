@@ -1,5 +1,6 @@
 package com.pintabar.persistence.entities.user;
 
+import com.google.common.base.Objects;
 import com.pintabar.persistence.entities.base.UUIDBaseEntity;
 import com.pintabar.persistence.entities.user.profile.UserProfile;
 import lombok.*;
@@ -20,7 +21,6 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "user")
 public class User extends UUIDBaseEntity {
 	private String username;
 	private String email;
@@ -29,4 +29,20 @@ public class User extends UUIDBaseEntity {
 
 	@OneToMany(mappedBy = "user")
 	private List<UserProfile> userProfiles = new ArrayList<>();
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		User user = (User) o;
+		return deleted == user.deleted &&
+				Objects.equal(username, user.getUsername()) &&
+				Objects.equal(email, user.getEmail()) &&
+				Objects.equal(uuid, user.getUuid());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(username, email, deleted, uuid);
+	}
 }

@@ -17,7 +17,7 @@ import java.util.UUID;
 public abstract class UUIDBaseEntity extends TimestampedBaseEntity {
 
 	@Column(nullable = false, unique = true)
-	private String uuid;
+	protected String uuid;
 
 	@PrePersist
 	public void initializeUUID() {

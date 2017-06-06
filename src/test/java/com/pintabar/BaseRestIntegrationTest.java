@@ -1,6 +1,7 @@
 package com.pintabar;
 
 import com.jayway.restassured.RestAssured;
+import com.jayway.restassured.parsing.Parser;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,6 +28,7 @@ public abstract class BaseRestIntegrationTest {
 	@Before
 	public void init() {
 		RestAssured.port = serverPort;
+		RestAssured.defaultParser = Parser.JSON;
 	}
 
 	@Test
