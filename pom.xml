@@ -22,6 +22,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <docker.baseDir>src/main/docker</docker.baseDir>
     </properties>
 
     <dependencies>
@@ -101,8 +102,8 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-            <!-- Querydsl and Specifications -->
 
+            <!-- Querydsl and Specifications -->
             <plugin>
                 <groupId>com.mysema.maven</groupId>
                 <artifactId>apt-maven-plugin</artifactId>
@@ -119,8 +120,8 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- Unit Tests and Integrations Tests configurations -->
 
+            <!-- Unit Tests and Integrations Tests configurations -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -153,8 +154,29 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- Docker configuration  -->
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.4.11</version>
+                <configuration>
+                    <imageName>godoylucase/${project.artifactId}</imageName>
+                    <dockerDirectory>${docker.baseDir}</dockerDirectory>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.war</include>
+                        </resource>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${docker.baseDir}</directory>
+                            <include>wrapper.sh</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-
-
 </project>
