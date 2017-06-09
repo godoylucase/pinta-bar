@@ -14,7 +14,7 @@ public interface UserService<T, ID> extends GenericService<T, ID> {
 
 	Optional<UserDTO> getUser(String uuid);
 
-	Optional<UserDTO> getUserByUserName(String username);
+	Optional<UserDTO> getUserByUsername(String username);
 
 	Optional<UserDTO> getUserByEmail(String email);
 

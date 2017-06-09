@@ -44,7 +44,7 @@ public class UserServiceImpl extends GenericServiceImpl<User, Long>
 	}
 
 	@Override
-	public Optional<UserDTO> getUserByUserName(String username) {
+	public Optional<UserDTO> getUserByUsername(String username) {
 		Optional<User> user = userRepository.findByUsername(username);
 		return userDTOMapper.mapToDTO(user.orElse(null));
 	}
@@ -71,7 +71,7 @@ public class UserServiceImpl extends GenericServiceImpl<User, Long>
 		if (!StringUtils.isEmpty(userDTO.getEmail())
 				&& !StringUtils.isEmpty(userDTO.getUsername())) {
 			Optional<UserDTO> emailExist = getUserByEmail(userDTO.getEmail());
-			Optional<UserDTO> usernameExist = getUserByUserName(userDTO.getUsername());
+			Optional<UserDTO> usernameExist = getUserByUsername(userDTO.getUsername());
 
 			if (!emailExist.isPresent() && !usernameExist.isPresent()) {
 				user = User.builder()
