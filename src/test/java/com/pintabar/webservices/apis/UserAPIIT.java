@@ -5,6 +5,7 @@ import com.pintabar.AbstractBaseRestIntegrationTest;
 import com.pintabar.persistence.dto.UserDTO;
 import com.pintabar.persistence.entities.user.User;
 import com.pintabar.persistence.repositories.UserRepository;
+import com.pintabar.webservices.response.errors.ErrorCode;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +64,8 @@ public class UserAPIIT extends AbstractBaseRestIntegrationTest {
 				.when()
 				.get(USER_API_PATH + "/{uuid}")
 				.then()
-				.statusCode(Response.Status.NO_CONTENT.getStatusCode());
+				.body("code", equalTo(ErrorCode.USER_NOT_FOUND))
+				.statusCode(Response.Status.NOT_FOUND.getStatusCode());
 	}
 
 	@Test
@@ -121,7 +123,7 @@ public class UserAPIIT extends AbstractBaseRestIntegrationTest {
 				.username(username)
 				.email(email)
 				.build();
-		createUserTest(newUser);
+		createUserFailing(newUser);
 	}
 
 	@Test
@@ -132,7 +134,7 @@ public class UserAPIIT extends AbstractBaseRestIntegrationTest {
 				.username(username)
 				.email(email)
 				.build();
-		createUserTest(newUser);
+		createUserFailing(newUser);
 	}
 
 	@Test
@@ -157,18 +159,20 @@ public class UserAPIIT extends AbstractBaseRestIntegrationTest {
 				.when()
 				.delete(USER_API_PATH + "/" + "{uuid}")
 				.then()
-				.statusCode(Response.Status.NOT_MODIFIED.getStatusCode());
+				.body("code", equalTo(ErrorCode.USER_NOT_FOUND))
+				.statusCode(Response.Status.NOT_FOUND.getStatusCode());
 
 		Optional<User> userDeleted = userRepository.findByUuid(uuid);
 		assertThat(userDeleted.isPresent()).isFalse();
 	}
 
-	public void createUserTest(UserDTO newUser) {
+	public void createUserFailing(UserDTO newUser) {
 		given().contentType(MediaType.APPLICATION_JSON)
 				.body(newUser)
 				.when()
 				.post(USER_API_PATH)
 				.then()
+				.body("code", equalTo(ErrorCode.USER_ALREADY_EXISTS))
 				.statusCode(Response.Status.CONFLICT.getStatusCode());
 
 		// double check DB user is not inserted
