@@ -1,4 +1,4 @@
-package com.pintabar.hibernate.custom;
+package com.pintabar.persistence.custom;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;

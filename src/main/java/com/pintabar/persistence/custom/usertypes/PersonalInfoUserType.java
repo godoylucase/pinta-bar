@@ -1,6 +1,6 @@
-package com.pintabar.hibernate.custom.usertypes;
+package com.pintabar.persistence.custom.usertypes;
 
-import com.pintabar.hibernate.custom.JacksonUserType;
+import com.pintabar.persistence.custom.JacksonUserType;
 import com.pintabar.persistence.entities.user.profile.PersonalInfo;
 
 /**

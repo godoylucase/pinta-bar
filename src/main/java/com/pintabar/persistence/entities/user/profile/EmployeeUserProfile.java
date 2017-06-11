@@ -18,6 +18,6 @@ import javax.persistence.Table;
 @PrimaryKeyJoinColumn(name = "id")
 public class EmployeeUserProfile extends UserProfile {
 
-	@Type(type = "com.pintabar.hibernate.custom.usertypes.PersonalInfoUserType")
+	@Type(type = "com.pintabar.persistence.custom.usertypes.PersonalInfoUserType")
 	private PersonalInfo personalInfo;
 }
