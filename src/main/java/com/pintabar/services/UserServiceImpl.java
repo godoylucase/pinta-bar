@@ -20,15 +20,14 @@ import java.util.stream.Collectors;
  * Created by lucasgodoy on 12/03/17.
  */
 @Service
-public class UserServiceImpl extends GenericServiceImpl<User, Long>
-		implements UserService<User, Long> {
+public class UserServiceImpl implements UserService<User, Long> {
 
 	private final UserRepository userRepository;
-	private UserDTOMapper userDTOMapper;
+	private final UserDTOMapper userDTOMapper;
 
-	public UserServiceImpl(UserRepository userRepository) {
-		super(userRepository);
+	public UserServiceImpl(UserRepository userRepository, UserDTOMapper userDTOMapper) {
 		this.userRepository = userRepository;
+		this.userDTOMapper = userDTOMapper;
 	}
 
 	@Override
@@ -93,10 +92,5 @@ public class UserServiceImpl extends GenericServiceImpl<User, Long>
 			return userDTOMapper.mapToDTO(user.orElse(null));
 		}
 		return Optional.empty();
-	}
-
-	@Inject
-	public void setUserDTOMapper(UserDTOMapper userDTOMapper) {
-		this.userDTOMapper = userDTOMapper;
 	}
 }
