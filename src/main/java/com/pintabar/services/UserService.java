@@ -8,7 +8,7 @@ import java.util.Optional;
 /**
  * Created by lucasgodoy on 12/03/17.
  */
-public interface UserService<T, ID> {
+public interface UserService {
 
 	Optional<UserDTO> getUser(Long id);
 

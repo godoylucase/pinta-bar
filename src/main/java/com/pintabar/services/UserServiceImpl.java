@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,7 +19,7 @@ import java.util.stream.Collectors;
  * Created by lucasgodoy on 12/03/17.
  */
 @Service
-public class UserServiceImpl implements UserService<User, Long> {
+public class UserServiceImpl implements UserService {
 
 	private final UserRepository userRepository;
 	private final UserDTOMapper userDTOMapper;

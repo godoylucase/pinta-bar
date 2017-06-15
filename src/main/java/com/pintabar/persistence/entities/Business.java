@@ -40,5 +40,5 @@ public class Business extends UUIDBaseEntity implements IBusiness {
 	private List<Menu> menues = new ArrayList<>();
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "business")
-	private List<Table> tables = new ArrayList<>();
+	private List<TableUnit> tableUnits = new ArrayList<>();
 }

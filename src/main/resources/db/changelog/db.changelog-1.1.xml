@@ -189,10 +189,10 @@
     <changeSet id="7" author="lucasgodoy">
         <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
             <not>
-                <tableExists tableName="table"/>
+                <tableExists tableName="table_unit"/>
             </not>
         </preConditions>
-        <createTable tableName="table">
+        <createTable tableName="table_unit">
             <column name="id" type="BIGINT(50)" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -213,23 +213,23 @@
             </column>
         </createTable>
         <addForeignKeyConstraint baseColumnNames="business_id"
-                                 baseTableName="table"
+                                 baseTableName="table_unit"
                                  constraintName="table_business_fk"
                                  onDelete="CASCADE"
                                  onUpdate="CASCADE"
                                  referencedColumnNames="id"
                                  referencedTableName="business"/>
-        <createIndex tableName="table" indexName="table_business_idx">
+        <createIndex tableName="table_unit" indexName="table_business_idx">
             <column name="business_id"/>
         </createIndex>
     </changeSet>
     <changeSet id="8" author="lucasgodoy">
         <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
             <not>
-                <tableExists tableName="order"/>
+                <tableExists tableName="purchase_order"/>
             </not>
         </preConditions>
-        <createTable tableName="order">
+        <createTable tableName="purchase_order">
             <column name="id" type="BIGINT(50)" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -245,37 +245,37 @@
             <column name="status" type="VARCHAR(255)">
                 <constraints nullable="false" unique="false"/>
             </column>
-            <column name="table_id" type="BIGINT(50)">
+            <column name="table_unit_id" type="BIGINT(50)">
                 <constraints nullable="false"/>
             </column>
             <column name="user_id" type="BIGINT(50)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addForeignKeyConstraint baseColumnNames="table_id"
-                                 baseTableName="order"
-                                 constraintName="order_table_fk"
+        <addForeignKeyConstraint baseColumnNames="table_unit_id"
+                                 baseTableName="purchase_order"
+                                 constraintName="purchase_order_table_unit_fk"
                                  referencedColumnNames="id"
-                                 referencedTableName="table"/>
-        <createIndex tableName="order" indexName="order_table_idx">
-            <column name="table_id"/>
+                                 referencedTableName="table_unit"/>
+        <createIndex tableName="purchase_order" indexName="purchase_order_table_unit_idx">
+            <column name="table_unit_id"/>
         </createIndex>
         <addForeignKeyConstraint baseColumnNames="user_id"
-                                 baseTableName="order"
-                                 constraintName="order_user_fk"
+                                 baseTableName="purchase_order"
+                                 constraintName="purchase_order_user_fk"
                                  referencedColumnNames="id"
                                  referencedTableName="user"/>
-        <createIndex tableName="order" indexName="order_user_idx">
+        <createIndex tableName="purchase_order" indexName="purchase_order_user_idx">
             <column name="user_id"/>
         </createIndex>
     </changeSet>
     <changeSet id="9" author="lucasgodoy">
         <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
             <not>
-                <tableExists tableName="order_detail"/>
+                <tableExists tableName="purchase_order_detail"/>
             </not>
         </preConditions>
-        <createTable tableName="order_detail">
+        <createTable tableName="purchase_order_detail">
             <column name="id" type="BIGINT(50)" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -285,25 +285,25 @@
             <column name="updated_on" type="DATE">
                 <constraints nullable="false"/>
             </column>
-            <column name="order_id" type="BIGINT(50)">
+            <column name="purchase_order_id" type="BIGINT(50)">
                 <constraints nullable="false"/>
             </column>
             <column name="item_id" type="BIGINT(50)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addForeignKeyConstraint baseColumnNames="order_id"
-                                 baseTableName="order_detail"
-                                 constraintName="order_detail_order_fk"
+        <addForeignKeyConstraint baseColumnNames="purchase_order_id"
+                                 baseTableName="purchase_order_detail"
+                                 constraintName="purchase_order_detail_purchase_order_fk"
                                  referencedColumnNames="id"
-                                 referencedTableName="order"/>
-        <createIndex tableName="order_detail" indexName="order_detail_order_idx">
-            <column name="order_id"/>
+                                 referencedTableName="purchase_order"/>
+        <createIndex tableName="purchase_order_detail" indexName="order_detail_purchase_order_idx">
+            <column name="purchase_order_id"/>
         </createIndex>
 
         <addForeignKeyConstraint baseColumnNames="item_id"
-                                 baseTableName="order_detail"
-                                 constraintName="order_detail_item_fk"
+                                 baseTableName="purchase_order_detail"
+                                 constraintName="purchase_order_detail_item_fk"
                                  referencedColumnNames="id"
                                  referencedTableName="menu_item"/>
     </changeSet>

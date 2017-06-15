@@ -1,9 +1,11 @@
 package com.pintabar.persistence.entities;
 
 import com.pintabar.persistence.entities.base.UUIDBaseEntity;
-import com.pintabar.persistence.interfaces.ITable;
+import com.pintabar.persistence.interfaces.ITableUnit;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
@@ -16,12 +18,14 @@ import javax.persistence.ManyToOne;
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
-public class Table extends UUIDBaseEntity implements ITable {
+public class TableUnit extends UUIDBaseEntity implements ITableUnit {
 
 	@ManyToOne
 	@JoinColumn(name = "business_id")
 	private Business business;
 
-	private int internalNumber;
+	private Integer internalNumber;
 }

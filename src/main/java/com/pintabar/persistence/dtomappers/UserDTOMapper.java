@@ -3,8 +3,10 @@ package com.pintabar.persistence.dtomappers;
 import com.pintabar.persistence.dto.UserDTO;
 import com.pintabar.persistence.entities.user.User;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.constraints.Null;
+import javax.annotation.Nullable;
 import java.util.Optional;
 
 /**
@@ -14,7 +16,8 @@ import java.util.Optional;
 public class UserDTOMapper implements GenericDTOMapper<User, UserDTO> {
 
 	@Override
-	public Optional<UserDTO> mapToDTO(@Null User user) {
+	@Transactional(propagation = Propagation.SUPPORTS)
+	public Optional<UserDTO> mapToDTO(@Nullable User user) {
 		UserDTO userDTO = null;
 		if (user != null) {
 			userDTO = UserDTO.builder()

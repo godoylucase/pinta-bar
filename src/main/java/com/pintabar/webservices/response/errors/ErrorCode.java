@@ -11,7 +11,9 @@ import java.io.Serializable;
 public enum ErrorCode implements Serializable {
 	USERS_NOT_FOUND("userAPI.users.not.found"),
 	USER_NOT_FOUND("userAPI.user.not.found"),
-	USER_ALREADY_EXISTS("userAPI.user.already.exists");
+	USER_ALREADY_EXISTS("userAPI.user.already.exists"),
+	TABLE_UNIT_NOT_FOUND("businessAPI.table.not.found"),
+	PURCHASE_ORDER_NOT_CREATED("businessAPI.purchase.order.not.created");
 
 	private final String message;
 

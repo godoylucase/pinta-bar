@@ -2,8 +2,10 @@ package com.pintabar.persistence.entities;
 
 import com.pintabar.persistence.entities.base.UUIDBaseEntity;
 import com.pintabar.persistence.interfaces.IMenuItem;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
 
@@ -18,6 +20,8 @@ import java.util.List;
  */
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Entity
 public class MenuItem extends UUIDBaseEntity implements IMenuItem {
