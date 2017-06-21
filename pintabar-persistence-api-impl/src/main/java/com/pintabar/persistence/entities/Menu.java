@@ -38,6 +38,8 @@ public class Menu extends UUIDBaseEntity implements IMenu {
 	private Business business;
 
 	@ManyToMany
-	@JoinTable(name = "menu_menu_category")
+	@JoinTable(name = "menu_menu_category",
+			joinColumns = {@JoinColumn(name = "menu_id")},
+			inverseJoinColumns = {@JoinColumn(name = "menu_category_id")})
 	private List<MenuCategory> categories = new ArrayList<>();
 }

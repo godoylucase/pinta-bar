@@ -27,7 +27,7 @@ import java.util.List;
 public class MenuItem extends UUIDBaseEntity implements IMenuItem {
 	private String name;
 
-	private String description;
+	//private String description;
 
 	@Type(type = "yes_no")
 	private boolean deleted = false;

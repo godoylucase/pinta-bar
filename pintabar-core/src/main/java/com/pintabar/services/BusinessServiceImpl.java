@@ -1,19 +1,25 @@
 package com.pintabar.services;
 
+import com.google.common.base.Preconditions;
+import com.pintabar.persistence.dto.MenuDTO;
 import com.pintabar.persistence.dto.PurchasePurchaseOrderDTO;
 import com.pintabar.persistence.dto.TableUnitDTO;
 import com.pintabar.persistence.dto.UserDTO;
+import com.pintabar.persistence.dtomappers.MenuDTOMapper;
 import com.pintabar.persistence.dtomappers.PurchaseOrderDTOMapper;
 import com.pintabar.persistence.entities.PurchaseOrder;
 import com.pintabar.persistence.entities.TableUnit;
 import com.pintabar.persistence.entities.user.User;
+import com.pintabar.persistence.repositories.MenuRepository;
 import com.pintabar.persistence.repositories.PurchaseOrderRepository;
 import com.pintabar.persistence.repositories.TableUnitRepository;
 import com.pintabar.persistence.repositories.UserRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Created by lucasgodoy on 14/06/17.
@@ -24,14 +30,19 @@ public class BusinessServiceImpl implements BusinessService {
 	private final UserRepository userRepository;
 	private final TableUnitRepository tableUnitRepository;
 	private final PurchaseOrderRepository purchaseOrderRepository;
+	private final MenuRepository menuRepository;
 	private final PurchaseOrderDTOMapper purchaseOrderDTOMapper;
+	private final MenuDTOMapper menuDTOMapper;
 
 	public BusinessServiceImpl(UserRepository userRepository, TableUnitRepository tableUnitRepository,
-	                           PurchaseOrderRepository purchaseOrderRepository, PurchaseOrderDTOMapper purchaseOrderDTOMapper) {
+	                           PurchaseOrderRepository purchaseOrderRepository, MenuRepository menuRepository,
+	                           PurchaseOrderDTOMapper purchaseOrderDTOMapper, MenuDTOMapper menuDTOMapper) {
 		this.userRepository = userRepository;
 		this.tableUnitRepository = tableUnitRepository;
 		this.purchaseOrderRepository = purchaseOrderRepository;
+		this.menuRepository = menuRepository;
 		this.purchaseOrderDTOMapper = purchaseOrderDTOMapper;
+		this.menuDTOMapper = menuDTOMapper;
 	}
 
 	@Override
@@ -46,6 +57,22 @@ public class BusinessServiceImpl implements BusinessService {
 		PurchaseOrder purchaseOrder = createOrder(user, tableUnit);
 
 		return purchaseOrderDTOMapper.mapToDTO(purchaseOrder);
+	}
+
+	@Override
+	@Transactional
+	public List<MenuDTO> getMenues(String businessUuid) {
+		return getMenues(businessUuid, null);
+	}
+
+	@Override
+	@Transactional
+	public List<MenuDTO> getMenues(String businessUuid, Boolean isDeleted) {
+		Preconditions.checkNotNull(businessUuid);
+		return menuRepository.findAllMenusByBusinessUuid(businessUuid, isDeleted)
+				.stream()
+				.map(menu -> menuDTOMapper.mapToDTO(menu).get())
+				.collect(Collectors.toList());
 	}
 
 	private PurchaseOrder createOrder(User user, TableUnit tableUnit) {

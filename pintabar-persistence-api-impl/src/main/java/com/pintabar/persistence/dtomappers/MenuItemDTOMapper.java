@@ -3,16 +3,16 @@ package com.pintabar.persistence.dtomappers;
 import com.pintabar.dtomappers.GenericDTOMapper;
 import com.pintabar.persistence.dto.MenuItemDTO;
 import com.pintabar.persistence.entities.MenuItem;
-import com.pintabar.entities.base.UUIDBaseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Created by lucasgodoy on 15/06/17.
  */
+@Component
 public class MenuItemDTOMapper implements GenericDTOMapper<MenuItem, MenuItemDTO> {
 
 	@Override
@@ -22,16 +22,10 @@ public class MenuItemDTOMapper implements GenericDTOMapper<MenuItem, MenuItemDTO
 		if (menuItem != null) {
 			menuItemDTO = new MenuItemDTO();
 			menuItemDTO.setName(menuItem.getName());
-			menuItemDTO.setDescription(menuItem.getDescription());
+			//menuItemDTO.setDescription(menuItem.getDescription());
 			menuItemDTO.setDeleted(menuItem.isDeleted());
 			menuItemDTO.setAvailable(menuItem.isAvailable());
 			menuItemDTO.setPrice(menuItem.getPrice());
-			menuItemDTO.setCategoriesUuid(
-					menuItem.getCategories()
-							.stream()
-							.map(UUIDBaseEntity::getUuid)
-							.collect(Collectors.toList()));
-
 			menuItemDTO.setUuid(menuItem.getUuid());
 			menuItemDTO.setCreatedOn(menuItem.getCreatedOn());
 			menuItemDTO.setUpdatedOn(menuItem.getUpdatedOn());

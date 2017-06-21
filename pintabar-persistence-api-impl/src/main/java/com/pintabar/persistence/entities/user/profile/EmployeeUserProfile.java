@@ -2,7 +2,6 @@ package com.pintabar.persistence.entities.user.profile;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;

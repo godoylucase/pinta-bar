@@ -13,7 +13,8 @@ public enum ErrorCode implements Serializable {
 	USER_NOT_FOUND("userAPI.user.not.found"),
 	USER_ALREADY_EXISTS("userAPI.user.already.exists"),
 	TABLE_UNIT_NOT_FOUND("businessAPI.table.not.found"),
-	PURCHASE_ORDER_NOT_CREATED("businessAPI.purchase.order.not.created");
+	PURCHASE_ORDER_NOT_CREATED("businessAPI.purchase.order.not.created"),
+	MENUES_NOT_FOUND("businessAPI.menues.not.found");
 
 	private final String message;
 

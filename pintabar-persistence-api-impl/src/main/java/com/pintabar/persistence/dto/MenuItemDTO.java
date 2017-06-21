@@ -10,8 +10,6 @@ import lombok.Setter;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by lucasgodoy on 15/06/17.
@@ -23,7 +21,6 @@ import java.util.List;
 @Builder
 @XmlRootElement
 public class MenuItemDTO extends BaseDTO implements IMenuItem {
-	public List<String> categoriesUuid = new ArrayList<>();
 	private String name;
 	private String description;
 	private boolean deleted = false;

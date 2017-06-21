@@ -3,7 +3,11 @@ package com.pintabar.persistence.entities.user;
 import com.google.common.base.Objects;
 import com.pintabar.entities.base.UUIDBaseEntity;
 import com.pintabar.persistence.entities.user.profile.UserProfile;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.Entity;

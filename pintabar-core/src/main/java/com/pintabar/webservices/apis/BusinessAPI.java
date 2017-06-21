@@ -1,5 +1,6 @@
 package com.pintabar.webservices.apis;
 
+import com.pintabar.persistence.dto.MenuDTO;
 import com.pintabar.persistence.dto.PurchasePurchaseOrderDTO;
 import com.pintabar.persistence.dto.TableUnitDTO;
 import com.pintabar.persistence.dto.UserDTO;
@@ -9,17 +10,21 @@ import com.pintabar.services.UserService;
 import com.pintabar.webservices.response.errors.ErrorCode;
 import com.pintabar.webservices.response.errors.ResponseErrorHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -66,5 +71,20 @@ public class BusinessAPI {
 					.build();
 		}
 		return responseErrorHandler.getResponse(Response.Status.INTERNAL_SERVER_ERROR, ErrorCode.PURCHASE_ORDER_NOT_CREATED);
+	}
+
+	@GET
+	@Path("/{businessUuid}/menu")
+	public Response getMenues(
+			@PathParam("businessUuid") String businessUuid,
+			@QueryParam("isDeleted") String isDeleted) {
+		if (StringUtils.isEmpty(isDeleted)) {
+			List<MenuDTO> menues = businessService.getMenues(businessUuid);
+			if (!menues.isEmpty()) {
+				return Response.ok(menues).build();
+			}
+			return responseErrorHandler.getResponse(Response.Status.NOT_FOUND, ErrorCode.MENUES_NOT_FOUND);
+		}
+		return Response.ok(businessService.getMenues(businessUuid, Boolean.valueOf(isDeleted))).build();
 	}
 }

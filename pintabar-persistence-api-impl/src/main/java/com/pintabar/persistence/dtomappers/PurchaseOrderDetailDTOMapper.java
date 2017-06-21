@@ -3,6 +3,7 @@ package com.pintabar.persistence.dtomappers;
 import com.pintabar.dtomappers.GenericDTOMapper;
 import com.pintabar.persistence.dto.PurchasePurchaseOrderDetailDTO;
 import com.pintabar.persistence.entities.PurchaseOrderDetail;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,6 +12,7 @@ import java.util.Optional;
 /**
  * Created by lucasgodoy on 15/06/17.
  */
+@Component
 public class PurchaseOrderDetailDTOMapper implements GenericDTOMapper<PurchaseOrderDetail, PurchasePurchaseOrderDetailDTO> {
 
 	private final MenuItemDTOMapper menuItemDTOMapper;

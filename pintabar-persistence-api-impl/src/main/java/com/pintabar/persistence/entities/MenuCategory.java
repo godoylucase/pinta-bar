@@ -12,6 +12,7 @@ import org.hibernate.annotations.Type;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import java.util.ArrayList;
@@ -33,6 +34,8 @@ public class MenuCategory extends UUIDBaseEntity implements IMenuCategory{
 	@Type(type = "yes_no")
 	private boolean deleted = false;
 
+	private String name;
+
 	@Enumerated(EnumType.STRING)
 	private MenuCategoryType type = MenuCategoryType.FOOD;
 
@@ -40,7 +43,9 @@ public class MenuCategory extends UUIDBaseEntity implements IMenuCategory{
 	private List<Menu> menues;
 
 	@ManyToMany
-	@JoinTable(name = "menu_category_menu_item")
+	@JoinTable(name = "menu_category_menu_item",
+			joinColumns = {@JoinColumn(name = "menu_category_id")},
+			inverseJoinColumns = {@JoinColumn(name = "menu_item_id")})
 	private List<MenuItem> items = new ArrayList<>();
 
 }
