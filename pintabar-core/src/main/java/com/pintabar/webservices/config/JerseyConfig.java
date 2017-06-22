@@ -14,6 +14,7 @@ import javax.ws.rs.ApplicationPath;
 @ApplicationPath("/api")
 public class JerseyConfig extends ResourceConfig {
 	public JerseyConfig() {
+		packages("com.pintabar.webservices.apis.exception.mappers");
 		register(UserAPI.class);
 		register(BusinessAPI.class);
 	}

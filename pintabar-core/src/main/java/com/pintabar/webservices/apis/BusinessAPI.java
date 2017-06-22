@@ -58,9 +58,9 @@ public class BusinessAPI {
 		Optional<UserDTO> userDTO = userService.getUser(userUuid);
 		Optional<TableUnitDTO> tableUnitDTO = tableUnitService.getTableUnit(tableUnitUuid);
 		if (!userDTO.isPresent()) {
-			return responseErrorHandler.getResponse(Response.Status.NOT_FOUND, ErrorCode.USER_NOT_FOUND);
+			return responseErrorHandler.createResponse(Response.Status.NOT_FOUND, ErrorCode.USER_NOT_FOUND);
 		} else if (!tableUnitDTO.isPresent()) {
-			return responseErrorHandler.getResponse(Response.Status.NOT_FOUND, ErrorCode.TABLE_UNIT_NOT_FOUND);
+			return responseErrorHandler.createResponse(Response.Status.NOT_FOUND, ErrorCode.TABLE_UNIT_NOT_FOUND);
 		}
 		Optional<PurchasePurchaseOrderDTO> purchaseOrder = businessService.checkInUserToTable(userDTO.get(), tableUnitDTO.get());
 		if (purchaseOrder.isPresent()) {
@@ -70,7 +70,7 @@ public class BusinessAPI {
 					.entity(purchaseOrder.get())
 					.build();
 		}
-		return responseErrorHandler.getResponse(Response.Status.INTERNAL_SERVER_ERROR, ErrorCode.PURCHASE_ORDER_NOT_CREATED);
+		return responseErrorHandler.createResponse(Response.Status.INTERNAL_SERVER_ERROR, ErrorCode.PURCHASE_ORDER_NOT_CREATED);
 	}
 
 	@GET
@@ -83,7 +83,7 @@ public class BusinessAPI {
 			if (!menues.isEmpty()) {
 				return Response.ok(menues).build();
 			}
-			return responseErrorHandler.getResponse(Response.Status.NOT_FOUND, ErrorCode.MENUES_NOT_FOUND);
+			return responseErrorHandler.createResponse(Response.Status.NOT_FOUND, ErrorCode.MENUES_NOT_FOUND);
 		}
 		return Response.ok(businessService.getMenues(businessUuid, Boolean.valueOf(isDeleted))).build();
 	}

@@ -18,7 +18,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @AllArgsConstructor
 @XmlRootElement
 public class ErrorResponse {
-	private int status;
+	private int httpStatus;
 	private ErrorCode code;
 	private String message;
+	private String developerMessage;
 }

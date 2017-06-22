@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 /**
  * Created by lucasgodoy on 10/06/17.
@@ -20,15 +22,32 @@ public class ResponseErrorHandlerImpl implements ResponseErrorHandler {
 	}
 
 	@Override
-	public Response getResponse(Response.Status status, ErrorCode errorCode, Object... params) {
+	public Response createResponse(Response.Status httpStatus, ErrorCode errorCode, Object... params) {
+		return doCreateResponse(httpStatus, errorCode, null, params);
+	}
+
+	@Override
+	public Response createResponse(Response.Status httpStatus, ErrorCode errorCode, Throwable ex, Object... params) {
+		return doCreateResponse(httpStatus, errorCode, ex, params);
+	}
+
+	private Response doCreateResponse(Response.Status httpStatus, ErrorCode errorCode, Throwable ex, Object... params) {
 		String message = messageSource.getMessage(errorCode.getMessage(), params,
 				LocaleContextHolder.getLocale());
+
 		ErrorResponse errorResponse = ErrorResponse.builder()
-				.status(status.getStatusCode())
+				.httpStatus(httpStatus.getStatusCode())
 				.code(errorCode)
 				.message(message)
 				.build();
-		return Response.status(status)
+
+		if (ex != null) {
+			StringWriter errorStackTrace = new StringWriter();
+			ex.printStackTrace(new PrintWriter(errorStackTrace));
+			errorResponse.setDeveloperMessage(errorStackTrace.toString());
+		}
+
+		return Response.status(httpStatus)
 				.entity(errorResponse)
 				.type(MediaType.APPLICATION_XML)
 				.build();

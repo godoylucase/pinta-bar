@@ -5,7 +5,12 @@ import javax.ws.rs.core.Response;
 /**
  * Created by lucasgodoy on 10/06/17.
  */
-@FunctionalInterface
 public interface ResponseErrorHandler {
-	Response getResponse(Response.Status status, ErrorCode errorCode, Object... params);
+
+	Response createResponse(Response.Status httpStatus, ErrorCode errorCode,
+	                        Object... params);
+
+	Response createResponse(Response.Status httpStatus, ErrorCode errorCode,
+	                        Throwable ex, Object... params);
+
 }

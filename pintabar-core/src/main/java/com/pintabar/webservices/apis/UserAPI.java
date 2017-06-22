@@ -49,7 +49,7 @@ public class UserAPI {
 			return Response.ok(user.get())
 					.build();
 		} else {
-			return responseErrorHandler.getResponse(Response.Status.NOT_FOUND, ErrorCode.USER_NOT_FOUND);
+			return responseErrorHandler.createResponse(Response.Status.NOT_FOUND, ErrorCode.USER_NOT_FOUND);
 		}
 	}
 
@@ -60,7 +60,7 @@ public class UserAPI {
 			if (!users.isEmpty()) {
 				return Response.ok(users).build();
 			}
-			return responseErrorHandler.getResponse(Response.Status.NOT_FOUND, ErrorCode.USERS_NOT_FOUND);
+			return responseErrorHandler.createResponse(Response.Status.NOT_FOUND, ErrorCode.USERS_NOT_FOUND);
 		}
 		return Response.ok(userService.getUsers(Boolean.valueOf(isDeleted))).build();
 	}
@@ -73,7 +73,7 @@ public class UserAPI {
 			uriBuilder.path(user.get().getUuid());
 			return Response.created(uriBuilder.build()).build();
 		}
-		return responseErrorHandler.getResponse(Response.Status.CONFLICT, ErrorCode.USER_ALREADY_EXISTS);
+		return responseErrorHandler.createResponse(Response.Status.CONFLICT, ErrorCode.USER_ALREADY_EXISTS);
 	}
 
 	@DELETE
@@ -83,7 +83,7 @@ public class UserAPI {
 		if (deletedUser.isPresent()) {
 			return Response.accepted().build();
 		} else {
-			return responseErrorHandler.getResponse(Response.Status.NOT_FOUND, ErrorCode.USER_NOT_FOUND);
+			return responseErrorHandler.createResponse(Response.Status.NOT_FOUND, ErrorCode.USER_NOT_FOUND);
 		}
 	}
 }
