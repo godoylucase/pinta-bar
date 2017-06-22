@@ -1,5 +1,6 @@
 package com.pintabar.services;
 
+import com.pintabar.exceptions.UserWithOpenedOrderException;
 import com.pintabar.persistence.dto.MenuDTO;
 import com.pintabar.persistence.dto.PurchasePurchaseOrderDTO;
 import com.pintabar.persistence.dto.TableUnitDTO;
@@ -13,7 +14,7 @@ import java.util.Optional;
  */
 public interface BusinessService {
 
-	Optional<PurchasePurchaseOrderDTO> checkInUserToTable(UserDTO userDTO, TableUnitDTO tableDTO);
+	Optional<PurchasePurchaseOrderDTO> checkInUserToTable(UserDTO userDTO, TableUnitDTO tableDTO) throws UserWithOpenedOrderException;
 
 	List<MenuDTO> getMenues(String businessUuid);
 

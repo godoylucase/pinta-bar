@@ -1,5 +1,6 @@
 package com.pintabar.webservices.apis;
 
+import com.pintabar.exceptions.UserWithOpenedOrderException;
 import com.pintabar.persistence.dto.MenuDTO;
 import com.pintabar.persistence.dto.PurchasePurchaseOrderDTO;
 import com.pintabar.persistence.dto.TableUnitDTO;
@@ -7,6 +8,7 @@ import com.pintabar.persistence.dto.UserDTO;
 import com.pintabar.services.BusinessService;
 import com.pintabar.services.TableUnitService;
 import com.pintabar.services.UserService;
+import com.pintabar.webservices.apis.exception.AppException;
 import com.pintabar.webservices.response.errors.ErrorCode;
 import com.pintabar.webservices.response.errors.ResponseErrorHandler;
 import org.springframework.stereotype.Component;
@@ -54,7 +56,7 @@ public class BusinessAPI {
 	public Response userCheckin(
 			@PathParam("userUuid") String userUuid,
 			@PathParam("tableUnitUuid") String tableUnitUuid,
-			@Context UriInfo uriInfo) {
+			@Context UriInfo uriInfo) throws AppException {
 		Optional<UserDTO> userDTO = userService.getUser(userUuid);
 		Optional<TableUnitDTO> tableUnitDTO = tableUnitService.getTableUnit(tableUnitUuid);
 		if (!userDTO.isPresent()) {
@@ -62,13 +64,19 @@ public class BusinessAPI {
 		} else if (!tableUnitDTO.isPresent()) {
 			return responseErrorHandler.createResponse(Response.Status.NOT_FOUND, ErrorCode.TABLE_UNIT_NOT_FOUND);
 		}
-		Optional<PurchasePurchaseOrderDTO> purchaseOrder = businessService.checkInUserToTable(userDTO.get(), tableUnitDTO.get());
-		if (purchaseOrder.isPresent()) {
-			UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
-			uriBuilder.path(purchaseOrder.get().getUuid());
-			return Response.status(Response.Status.CREATED)
-					.entity(purchaseOrder.get())
-					.build();
+
+		try {
+			Optional<PurchasePurchaseOrderDTO> purchaseOrder = businessService.checkInUserToTable(userDTO.get(),
+					tableUnitDTO.get());
+			if (purchaseOrder.isPresent()) {
+				UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
+				uriBuilder.path(purchaseOrder.get().getUuid());
+				return Response.status(Response.Status.CREATED)
+						.entity(purchaseOrder.get())
+						.build();
+			}
+		} catch (UserWithOpenedOrderException e) {
+			throw new AppException(Response.Status.CONFLICT, ErrorCode.USER_ALREADY_HAS_OPENED_ORDERS);
 		}
 		return responseErrorHandler.createResponse(Response.Status.INTERNAL_SERVER_ERROR, ErrorCode.PURCHASE_ORDER_NOT_CREATED);
 	}

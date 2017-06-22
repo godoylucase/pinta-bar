@@ -12,6 +12,7 @@ public enum ErrorCode implements Serializable {
 	USERS_NOT_FOUND("userAPI.users.not.found"),
 	USER_NOT_FOUND("userAPI.user.not.found"),
 	USER_ALREADY_EXISTS("userAPI.user.already.exists"),
+	USER_ALREADY_HAS_OPENED_ORDERS("businessAPI.user.already.has.opened.orders"),
 	TABLE_UNIT_NOT_FOUND("businessAPI.table.not.found"),
 	PURCHASE_ORDER_NOT_CREATED("businessAPI.purchase.order.not.created"),
 	MENUES_NOT_FOUND("businessAPI.menues.not.found"),

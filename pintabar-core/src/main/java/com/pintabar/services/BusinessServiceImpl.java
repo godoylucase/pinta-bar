@@ -1,6 +1,7 @@
 package com.pintabar.services;
 
 import com.google.common.base.Preconditions;
+import com.pintabar.exceptions.UserWithOpenedOrderException;
 import com.pintabar.persistence.dto.MenuDTO;
 import com.pintabar.persistence.dto.PurchasePurchaseOrderDTO;
 import com.pintabar.persistence.dto.TableUnitDTO;
@@ -8,12 +9,14 @@ import com.pintabar.persistence.dto.UserDTO;
 import com.pintabar.persistence.dtomappers.MenuDTOMapper;
 import com.pintabar.persistence.dtomappers.PurchaseOrderDTOMapper;
 import com.pintabar.persistence.entities.PurchaseOrder;
+import com.pintabar.persistence.entities.PurchaseOrderStatus;
 import com.pintabar.persistence.entities.TableUnit;
 import com.pintabar.persistence.entities.user.User;
 import com.pintabar.persistence.repositories.MenuRepository;
 import com.pintabar.persistence.repositories.PurchaseOrderRepository;
 import com.pintabar.persistence.repositories.TableUnitRepository;
 import com.pintabar.persistence.repositories.UserRepository;
+import com.pintabar.webservices.apis.exception.AppException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,12 +50,20 @@ public class BusinessServiceImpl implements BusinessService {
 
 	@Override
 	@Transactional
-	public Optional<PurchasePurchaseOrderDTO> checkInUserToTable(UserDTO userDTO, TableUnitDTO tableDTO) {
+	public Optional<PurchasePurchaseOrderDTO> checkInUserToTable(UserDTO userDTO, TableUnitDTO tableDTO)
+			throws UserWithOpenedOrderException {
 		Optional<User> userOp = userRepository.findByUuid(userDTO.getUuid());
 		Optional<TableUnit> tableOp = tableUnitRepository.findByUuid(tableDTO.getUuid());
 		// check exception, this is just prototyping
 		User user = userOp.orElseThrow(IllegalArgumentException::new);
 		TableUnit tableUnit = tableOp.orElseThrow(IllegalArgumentException::new);
+
+		List<PurchaseOrder> purchaseOrders =
+				purchaseOrderRepository.findPurchaseOrdersByUserIdAndStatus(user.getId(), PurchaseOrderStatus.OPEN);
+
+		if (!purchaseOrders.isEmpty()) {
+			throw new UserWithOpenedOrderException();
+		}
 
 		PurchaseOrder purchaseOrder = createOrder(user, tableUnit);
 

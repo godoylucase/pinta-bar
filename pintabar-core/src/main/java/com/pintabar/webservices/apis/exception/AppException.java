@@ -2,6 +2,7 @@ package com.pintabar.webservices.apis.exception;
 
 import com.pintabar.webservices.response.errors.ErrorCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.ws.rs.core.Response;
@@ -11,6 +12,7 @@ import javax.ws.rs.core.Response;
  */
 @Getter
 @Setter
+@NoArgsConstructor
 public class AppException extends Exception {
 	private Response.Status httpStatus;
 	private ErrorCode errorCode;
