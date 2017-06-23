@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.math.BigDecimal;
 
 /**
  * Created by lucasgodoy on 14/06/17.
@@ -19,7 +20,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @AllArgsConstructor
 @Builder
 @XmlRootElement
-public class PurchasePurchaseOrderDetailDTO extends BaseDTO implements IPurchaseOrderDetail {
+public class PurchaseOrderDetailDTO extends BaseDTO implements IPurchaseOrderDetail {
 	private MenuItemDTO item;
-	private String orderUuid;
+	private BigDecimal quantity = BigDecimal.ZERO;
+	private String purchaseOrderUuid;
 }

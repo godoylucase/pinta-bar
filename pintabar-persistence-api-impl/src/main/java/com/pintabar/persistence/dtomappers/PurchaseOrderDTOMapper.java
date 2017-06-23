@@ -1,7 +1,7 @@
 package com.pintabar.persistence.dtomappers;
 
 import com.pintabar.dtomappers.GenericDTOMapper;
-import com.pintabar.persistence.dto.PurchasePurchaseOrderDTO;
+import com.pintabar.persistence.dto.PurchaseOrderDTO;
 import com.pintabar.persistence.entities.PurchaseOrder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
@@ -14,7 +14,7 @@ import java.util.Optional;
  * Created by lucasgodoy on 14/06/17.
  */
 @Component
-public class PurchaseOrderDTOMapper implements GenericDTOMapper<PurchaseOrder, PurchasePurchaseOrderDTO> {
+public class PurchaseOrderDTOMapper implements GenericDTOMapper<PurchaseOrder, PurchaseOrderDTO> {
 
 	private final UserDTOMapper userDTOMapper;
 	private final TableUnitDTOMapper tableUnitDTOMapper;
@@ -26,10 +26,10 @@ public class PurchaseOrderDTOMapper implements GenericDTOMapper<PurchaseOrder, P
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS)
-	public Optional<PurchasePurchaseOrderDTO> mapToDTO(@Nullable PurchaseOrder purchaseOrder) {
-		PurchasePurchaseOrderDTO purchaseOrderDTO = null;
+	public Optional<PurchaseOrderDTO> mapToDTO(@Nullable PurchaseOrder purchaseOrder) {
+		PurchaseOrderDTO purchaseOrderDTO = null;
 		if (purchaseOrder != null) {
-			purchaseOrderDTO = new PurchasePurchaseOrderDTO();
+			purchaseOrderDTO = new PurchaseOrderDTO();
 			if (purchaseOrder.getUser() != null) {
 				purchaseOrderDTO.setUserUuid(purchaseOrder.getUser().getUuid());
 			}

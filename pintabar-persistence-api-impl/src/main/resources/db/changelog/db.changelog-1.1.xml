@@ -307,4 +307,14 @@
                                  referencedColumnNames="id"
                                  referencedTableName="menu_item"/>
     </changeSet>
+    <changeSet id="10" author="lucasgodoy">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <columnExists columnName="quantity" tableName="purchase_order_detail"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="purchase_order_detail">
+            <column name="quantity" type="DOUBLE" defaultValueNumeric="0"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
