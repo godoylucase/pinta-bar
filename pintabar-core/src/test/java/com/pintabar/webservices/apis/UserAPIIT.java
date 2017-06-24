@@ -6,6 +6,7 @@ import com.pintabar.persistence.dto.UserDTO;
 import com.pintabar.persistence.entities.user.User;
 import com.pintabar.persistence.repositories.UserRepository;
 import com.pintabar.webservices.response.errors.ErrorCode;
+import com.pintabar.webservices.response.errors.ErrorResponse;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,17 +63,15 @@ public class UserAPIIT extends AbstractBaseRestIntegrationTest {
 	@Test
 	public void getUserWithWrongUuid_test() {
 		String uuid = "thisIsNotAValidUUID";
-		given().pathParam("uuid", uuid)
+		ErrorResponse errorResponse = given().pathParam("uuid", uuid)
 				.when()
 				.get(USER_API_PATH + "/{uuid}")
 				.then()
-				.body("code", equalTo(ErrorCode.USER_NOT_FOUND))
-				.statusCode(Response.Status.NOT_FOUND.getStatusCode());
-	}
+				.statusCode(Response.Status.NOT_FOUND.getStatusCode())
+				.extract().body().as(ErrorResponse.class);
 
-	@Test
-	public void getAllUsers_test() {
-		getUsersTests(null);
+		assertThat(errorResponse.getCode()).isEqualTo(ErrorCode.USER_NOT_FOUND);
+		assertThat(errorResponse.getHttpStatus()).isEqualTo(Response.Status.NOT_FOUND.getStatusCode());
 	}
 
 	@Test
@@ -114,7 +113,7 @@ public class UserAPIIT extends AbstractBaseRestIntegrationTest {
 				.body("email", equalTo(newUser.getEmail()));
 
 		// get all users and check if newUser is present and the amount of users is incremented in one more
-		getUsersTests(null);
+		getUsersTests(false);
 	}
 
 	@Test
@@ -157,26 +156,31 @@ public class UserAPIIT extends AbstractBaseRestIntegrationTest {
 	public void deleteNonExistentUser_test() {
 		String uuid = "thisIsNotAValidUUID";
 
-		given().pathParam("uuid", uuid)
+		ErrorResponse errorResponse = given().pathParam("uuid", uuid)
 				.when()
 				.delete(USER_API_PATH + "/" + "{uuid}")
 				.then()
-				.body("code", equalTo(ErrorCode.USER_NOT_FOUND))
-				.statusCode(Response.Status.NOT_FOUND.getStatusCode());
+				.statusCode(Response.Status.NOT_FOUND.getStatusCode())
+				.extract().body().as(ErrorResponse.class);
+
+		assertThat(errorResponse.getCode()).isEqualTo(ErrorCode.USER_NOT_FOUND);
+		assertThat(errorResponse.getHttpStatus()).isEqualTo(Response.Status.NOT_FOUND.getStatusCode());
 
 		Optional<User> userDeleted = userRepository.findByUuid(uuid);
 		assertThat(userDeleted.isPresent()).isFalse();
 	}
 
 	public void createUserFailing(UserDTO newUser) {
-		given().contentType(MediaType.APPLICATION_JSON)
+		ErrorResponse errorResponse = given().log().ifValidationFails()
 				.body(newUser)
 				.when()
 				.post(USER_API_PATH)
-				.then()
-				.body("code", equalTo(ErrorCode.USER_ALREADY_EXISTS))
-				.statusCode(Response.Status.CONFLICT.getStatusCode());
+				.then().log().ifValidationFails()
+				.statusCode(Response.Status.CONFLICT.getStatusCode())
+				.extract().body().as(ErrorResponse.class);
 
+		assertThat(errorResponse.getCode()).isEqualTo(ErrorCode.USER_ALREADY_EXISTS);
+		assertThat(errorResponse.getHttpStatus()).isEqualTo(Response.Status.CONFLICT.getStatusCode());
 		// double check DB user is not inserted
 		Optional<User> noRecordedUserEmail = userRepository.findByEmail(newUser.getEmail());
 		Optional<User> noRecordedUserUsername = userRepository.findByUsername(newUser.getUsername());

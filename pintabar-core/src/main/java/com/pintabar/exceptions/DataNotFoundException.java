@@ -1,4 +1,4 @@
-package com.pintabar.exceptions.purchaseorder;
+package com.pintabar.exceptions;
 
 import com.pintabar.webservices.apis.exception.AppException;
 import com.pintabar.webservices.response.errors.ErrorCode;
@@ -7,14 +7,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Created by lucasgodoy on 23/06/17.
+ * Created by lucasgodoy on 24/06/17.
  */
 @Getter
 @Setter
 @NoArgsConstructor
-public class InvalidPurchaseOrderException extends AppException {
+public class DataNotFoundException extends AppException {
 
-	public InvalidPurchaseOrderException(ErrorCode errorCode, Object... params) {
+	public DataNotFoundException(ErrorCode errorCode, Object... params) {
 		super(errorCode, params);
 	}
 }

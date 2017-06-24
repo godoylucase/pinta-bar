@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.ws.rs.core.Response;
-
 /**
  * Created by lucasgodoy on 22/06/17.
  */
@@ -14,12 +12,10 @@ import javax.ws.rs.core.Response;
 @Setter
 @NoArgsConstructor
 public class AppException extends Exception {
-	private Response.Status httpStatus;
-	private ErrorCode errorCode;
-	private Object[] params;
+	protected ErrorCode errorCode;
+	protected Object[] params;
 
-	public AppException(Response.Status httpStatus, ErrorCode errorCode, Object... params) {
-		this.httpStatus = httpStatus;
+	public AppException(ErrorCode errorCode, Object... params) {
 		this.errorCode = errorCode;
 		this.params = params;
 	}

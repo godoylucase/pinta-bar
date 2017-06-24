@@ -1,6 +1,9 @@
 package com.pintabar;
 
 import com.jayway.restassured.RestAssured;
+import com.jayway.restassured.builder.RequestSpecBuilder;
+import com.jayway.restassured.builder.ResponseSpecBuilder;
+import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.parsing.Parser;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,8 +30,15 @@ public abstract class AbstractBaseRestIntegrationTest {
 
 	@Before
 	public void init() {
-		RestAssured.port = serverPort;
 		RestAssured.defaultParser = Parser.JSON;
+		RestAssured.requestSpecification = new RequestSpecBuilder()
+				.setPort(serverPort)
+				.setContentType(ContentType.JSON)
+				.setAccept(ContentType.JSON)
+				.build();
+		RestAssured.responseSpecification = new ResponseSpecBuilder()
+				.setDefaultParser(Parser.JSON)
+				.build();
 	}
 
 	@Test
