@@ -1,14 +1,12 @@
 package com.pintabar.services;
 
 import com.google.common.base.Preconditions;
+import com.pintabar.exceptions.DataNotFoundException;
 import com.pintabar.exceptions.UserWithOpenedOrderException;
 import com.pintabar.exceptions.purchaseorder.ClosedPurchaseOrderException;
 import com.pintabar.exceptions.purchaseorder.InvalidPurchaseOrderException;
-import com.pintabar.exceptions.purchaseorder.PurchaseOrderNotFoundException;
 import com.pintabar.persistence.dto.MenuDTO;
 import com.pintabar.persistence.dto.PurchaseOrderDTO;
-import com.pintabar.persistence.dto.TableUnitDTO;
-import com.pintabar.persistence.dto.UserDTO;
 import com.pintabar.persistence.dtomappers.MenuDTOMapper;
 import com.pintabar.persistence.dtomappers.PurchaseOrderDTOMapper;
 import com.pintabar.persistence.entities.MenuItem;
@@ -23,6 +21,7 @@ import com.pintabar.persistence.repositories.PurchaseOrderRepository;
 import com.pintabar.persistence.repositories.TableUnitRepository;
 import com.pintabar.persistence.repositories.UserRepository;
 import com.pintabar.webservices.request.OrderingWS;
+import com.pintabar.webservices.response.errors.ErrorCode;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,35 +59,37 @@ public class BusinessServiceImpl implements BusinessService {
 
 	@Override
 	@Transactional
-	public Optional<PurchaseOrderDTO> checkInUserToTable(UserDTO userDTO, TableUnitDTO tableDTO)
-			throws UserWithOpenedOrderException {
-		Optional<User> userOp = userRepository.findByUuid(userDTO.getUuid());
-		Optional<TableUnit> tableOp = tableUnitRepository.findByUuid(tableDTO.getUuid());
-		// check exception, this is just prototyping
-		User user = userOp.orElseThrow(IllegalArgumentException::new);
-		TableUnit tableUnit = tableOp.orElseThrow(IllegalArgumentException::new);
+	public Optional<PurchaseOrderDTO> checkInUserToTable(String userUuid, String tableUnitUuid)
+			throws DataNotFoundException, UserWithOpenedOrderException {
+		User user = userRepository.findByUuid(userUuid)
+				.orElseThrow(() -> new DataNotFoundException(ErrorCode.USER_NOT_FOUND));
+		TableUnit tableUnit = tableUnitRepository.findByUuid(tableUnitUuid)
+				.orElseThrow(() -> new DataNotFoundException(ErrorCode.TABLE_UNIT_NOT_FOUND));
+		return checkInUserToTable(user, tableUnit);
+	}
 
+	@Override
+	@Transactional
+	public Optional<PurchaseOrderDTO> checkInUserToTable(User user, TableUnit tableUnit)
+			throws UserWithOpenedOrderException {
 		List<PurchaseOrder> purchaseOrders =
 				purchaseOrderRepository.findPurchaseOrdersByUserIdAndStatus(user.getId(), PurchaseOrderStatus.OPEN_STATUSES);
-
 		if (!purchaseOrders.isEmpty()) {
-			throw new UserWithOpenedOrderException();
+			throw new UserWithOpenedOrderException(ErrorCode.USER_ALREADY_HAS_OPENED_ORDERS);
 		}
-
 		PurchaseOrder purchaseOrder = createOrder(user, tableUnit);
-
 		return purchaseOrderDTOMapper.mapToDTO(purchaseOrder);
 	}
 
 	@Override
 	@Transactional
-	public List<MenuDTO> getMenues(String businessUuid) {
-		return getMenues(businessUuid, null);
+	public List<MenuDTO> getMenus(String businessUuid) {
+		return getMenus(businessUuid, null);
 	}
 
 	@Override
 	@Transactional
-	public List<MenuDTO> getMenues(String businessUuid, Boolean isDeleted) {
+	public List<MenuDTO> getMenus(String businessUuid, Boolean isDeleted) {
 		Preconditions.checkNotNull(businessUuid);
 		return menuRepository.findAllMenusByBusinessUuid(businessUuid, isDeleted)
 				.stream()
@@ -99,16 +100,16 @@ public class BusinessServiceImpl implements BusinessService {
 	@Override
 	@Transactional
 	public PurchaseOrderDTO addItemsToPurchaseOrder(String purchaseOrderUuid, OrderingWS orderingWS)
-			throws PurchaseOrderNotFoundException, InvalidPurchaseOrderException, ClosedPurchaseOrderException {
+			throws InvalidPurchaseOrderException, ClosedPurchaseOrderException, DataNotFoundException {
 		PurchaseOrder purchaseOrder = purchaseOrderRepository.findByUuid(purchaseOrderUuid)
-				.orElseThrow(PurchaseOrderNotFoundException::new);
+				.orElseThrow(() -> new DataNotFoundException(ErrorCode.PURCHASE_ORDER_NOT_FOUND));
 
 		// just prototyping move this to a very more complex validation
 		if (!purchaseOrder.getUser().getUuid().equals(orderingWS.getUserUuid())
 				|| !purchaseOrder.getTableUnit().getBusiness().getUuid().equals(orderingWS.getBusinessUuid())) {
-			throw new InvalidPurchaseOrderException();
+			throw new InvalidPurchaseOrderException(ErrorCode.PURCHASE_ORDER_INVALID_OWNER);
 		} else if (PurchaseOrderStatus.CLOSED_STATUSES.contains(purchaseOrder.getStatus())) {
-			throw new ClosedPurchaseOrderException();
+			throw new ClosedPurchaseOrderException(ErrorCode.PURCHASE_ORDER_ALREADY_CLOSED);
 		}
 
 		// item detail rebuild from external resource and added into purchase order
@@ -119,19 +120,21 @@ public class BusinessServiceImpl implements BusinessService {
 	}
 
 	private List<PurchaseOrderDetail> processPurchaseOrderDetailsFromMap(Map<String, BigDecimal> purchaseOrderLinesMap,
-	                                                                     PurchaseOrder purchaseOrder) {
-		return purchaseOrderLinesMap.entrySet().stream()
-				.map(entry -> {
-					MenuItem menuItem = menuItemRepository.findByUuid(entry.getKey())
-							.orElseThrow(IllegalArgumentException::new);
-					if (!validateMenuItem(menuItem)) {
-						throw new IllegalArgumentException();
-					}
-
-					PurchaseOrderDetail purchaseOrderDetail =
-							new PurchaseOrderDetail(entry.getValue(), menuItem, purchaseOrder);
-					return purchaseOrderDetail;
-				}).collect(Collectors.toList());
+	                                                                     PurchaseOrder purchaseOrder) throws DataNotFoundException {
+		try {
+			return purchaseOrderLinesMap.entrySet().stream()
+					.map(entry -> {
+						MenuItem menuItem = menuItemRepository.findByUuid(entry.getKey())
+								.orElseThrow(IllegalArgumentException::new);
+						if (!validateMenuItem(menuItem)) {
+							throw new IllegalArgumentException();
+						}
+						return new PurchaseOrderDetail(entry.getValue(), menuItem, purchaseOrder);
+					}).collect(Collectors.toList());
+		} catch (IllegalArgumentException ex) {
+			// temporal work around before implementing custom Function for above lambda expression
+			throw new DataNotFoundException(ErrorCode.MENU_ITEM_NOT_FOUND);
+		}
 	}
 
 	private boolean validateMenuItem(MenuItem menuItem) {
