@@ -18,11 +18,11 @@ import java.util.Date;
 @Setter
 @MappedSuperclass
 public abstract class TimestampedBaseEntity extends BaseEntity {
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = false, updatable = false)
 	private Date createdOn;
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = false)
 	private Date updatedOn;
 

@@ -317,4 +317,24 @@
             <column name="quantity" type="DOUBLE" defaultValueNumeric="0"/>
         </addColumn>
     </changeSet>
+    <changeSet id="11" author="">
+        <modifyDataType tableName="user" columnName="created_on" newDataType="DATETIME"/>
+        <modifyDataType tableName="user" columnName="updated_on" newDataType="DATETIME"/>
+        <modifyDataType tableName="business" columnName="created_on" newDataType="DATETIME"/>
+        <modifyDataType tableName="business" columnName="updated_on" newDataType="DATETIME"/>
+        <modifyDataType tableName="menu" columnName="created_on" newDataType="DATETIME"/>
+        <modifyDataType tableName="menu" columnName="updated_on" newDataType="DATETIME"/>
+        <modifyDataType tableName="menu_category" columnName="created_on" newDataType="DATETIME"/>
+        <modifyDataType tableName="menu_category" columnName="updated_on" newDataType="DATETIME"/>
+        <modifyDataType tableName="menu_item" columnName="created_on" newDataType="DATETIME"/>
+        <modifyDataType tableName="menu_item" columnName="updated_on" newDataType="DATETIME"/>
+        <modifyDataType tableName="purchase_order" columnName="created_on" newDataType="DATETIME"/>
+        <modifyDataType tableName="purchase_order" columnName="updated_on" newDataType="DATETIME"/>
+        <modifyDataType tableName="purchase_order_detail" columnName="created_on" newDataType="DATETIME"/>
+        <modifyDataType tableName="purchase_order_detail" columnName="updated_on" newDataType="DATETIME"/>
+        <modifyDataType tableName="table_unit" columnName="created_on" newDataType="DATETIME"/>
+        <modifyDataType tableName="table_unit" columnName="updated_on" newDataType="DATETIME"/>
+        <modifyDataType tableName="user_profile_employee" columnName="created_on" newDataType="DATETIME"/>
+        <modifyDataType tableName="user_profile_employee" columnName="updated_on" newDataType="DATETIME"/>
+    </changeSet>
 </databaseChangeLog>
