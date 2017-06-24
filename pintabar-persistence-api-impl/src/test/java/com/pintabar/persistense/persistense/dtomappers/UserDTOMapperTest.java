@@ -1,4 +1,4 @@
-package com.pintabar.persistense.dtomappers;
+package com.pintabar.persistense.persistense.dtomappers;
 
 import com.pintabar.persistence.dto.UserDTO;
 import com.pintabar.persistence.dtomappers.UserDTOMapper;
