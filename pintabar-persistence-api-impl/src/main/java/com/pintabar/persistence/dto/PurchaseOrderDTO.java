@@ -21,9 +21,9 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @XmlRootElement
-public class PurchasePurchaseOrderDTO extends BaseDTO implements IPurchaseOrder {
+public class PurchaseOrderDTO extends BaseDTO implements IPurchaseOrder {
 	private PurchaseOrderStatus status = com.pintabar.persistence.entities.PurchaseOrderStatus.OPENED;
 	private String tableUuid;
 	private String userUuid;
-	private List<PurchasePurchaseOrderDetailDTO> orderDetail;
+	private List<PurchaseOrderDetailDTO> orderDetail;
 }

@@ -10,6 +10,7 @@ public enum PurchaseOrderStatus {
 
 	public static final EnumSet<PurchaseOrderStatus> ALL = EnumSet.allOf(PurchaseOrderStatus.class);
 
-	public static final EnumSet<PurchaseOrderStatus> CLOSED = EnumSet.of(CLOSED_CANCELLED, CLOSED_TO_BE_PAID, CLOSED_PAID);
-	public static final EnumSet<PurchaseOrderStatus> OPEN = EnumSet.of(OPENED, PROCESSING, READY, DELIVERED);
+	public static final EnumSet<PurchaseOrderStatus> CLOSED_STATUSES = EnumSet.of(CLOSED_CANCELLED, CLOSED_TO_BE_PAID, CLOSED_PAID);
+	public static final EnumSet<PurchaseOrderStatus> OPEN_STATUSES = EnumSet.of(OPENED, PROCESSING, READY, DELIVERED);
 }
+
