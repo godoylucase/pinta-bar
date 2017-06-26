@@ -4,6 +4,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -11,6 +12,7 @@ import javax.persistence.EntityManagerFactory;
 
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 @EnableTransactionManagement
+@EnableDiscoveryClient
 public class PintabarServerApplication {
 
 	public static void main(String[] args) {
