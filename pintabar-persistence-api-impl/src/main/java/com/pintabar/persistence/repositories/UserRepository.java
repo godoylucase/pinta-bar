@@ -1,6 +1,6 @@
 package com.pintabar.persistence.repositories;
 
-import com.pintabar.persistence.entities.user.User;
+import com.pintabar.entities.user.User;
 import com.pintabar.repositories.GenericJpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -1,6 +1,6 @@
 package com.pintabar.persistence.querydsl.predicates;
 
-import com.pintabar.persistence.entities.QMenu;
+import com.pintabar.entities.QMenu;
 import com.querydsl.core.types.dsl.BooleanExpression;
 
 /**

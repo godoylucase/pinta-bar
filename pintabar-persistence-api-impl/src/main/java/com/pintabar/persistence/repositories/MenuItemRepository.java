@@ -1,6 +1,6 @@
 package com.pintabar.persistence.repositories;
 
-import com.pintabar.persistence.entities.MenuItem;
+import com.pintabar.entities.MenuItem;
 import com.pintabar.repositories.GenericJpaRepository;
 
 /**

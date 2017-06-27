@@ -1,7 +1,7 @@
 package com.pintabar.persistence.querydsl.predicates;
 
-import com.pintabar.persistence.entities.PurchaseOrderStatus;
-import com.pintabar.persistence.entities.QPurchaseOrder;
+import com.pintabar.entities.PurchaseOrderStatus;
+import com.pintabar.entities.QPurchaseOrder;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 

@@ -2,8 +2,8 @@ package com.pintabar.webservices.apis;
 
 import com.google.common.collect.Lists;
 import com.pintabar.AbstractBaseRestIntegrationTest;
-import com.pintabar.persistence.dto.UserDTO;
-import com.pintabar.persistence.entities.user.User;
+import com.pintabar.dto.UserDTO;
+import com.pintabar.entities.user.User;
 import com.pintabar.persistence.repositories.UserRepository;
 import com.pintabar.webservices.response.errors.ErrorCode;
 import com.pintabar.webservices.response.errors.ErrorResponse;

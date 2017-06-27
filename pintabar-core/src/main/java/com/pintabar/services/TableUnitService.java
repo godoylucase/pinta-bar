@@ -1,6 +1,6 @@
 package com.pintabar.services;
 
-import com.pintabar.persistence.dto.TableUnitDTO;
+import com.pintabar.dto.TableUnitDTO;
 
 import java.util.Optional;
 

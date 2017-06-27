@@ -2,8 +2,8 @@ package com.pintabar.persistence.dtomappers;
 
 import com.pintabar.dtomappers.GenericDTOMapper;
 import com.pintabar.entities.base.UUIDBaseEntity;
-import com.pintabar.persistence.dto.MenuItemDTO;
-import com.pintabar.persistence.entities.MenuItem;
+import com.pintabar.dto.MenuItemDTO;
+import com.pintabar.entities.MenuItem;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;

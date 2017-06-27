@@ -26,6 +26,8 @@
         <module>pintabar-core</module>
         <module>pintabar-persistence-api</module>
         <module>pintabar-persistence-api-impl</module>
+        <module>pintabar-model-api</module>
+        <module>pintabar-model-api-impl</module>
     </modules>
 
     <dependencies>

@@ -1,7 +1,7 @@
 package com.pintabar.persistence.repositories.custom;
 
-import com.pintabar.persistence.entities.PurchaseOrder;
-import com.pintabar.persistence.entities.PurchaseOrderStatus;
+import com.pintabar.entities.PurchaseOrder;
+import com.pintabar.entities.PurchaseOrderStatus;
 
 import java.util.EnumSet;
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.pintabar.webservices.apis;
 
 import com.pintabar.exceptions.DataNotFoundException;
-import com.pintabar.persistence.dto.UserDTO;
+import com.pintabar.dto.UserDTO;
 import com.pintabar.services.UserService;
 import com.pintabar.services.UserServiceImpl;
 import org.springframework.stereotype.Component;
