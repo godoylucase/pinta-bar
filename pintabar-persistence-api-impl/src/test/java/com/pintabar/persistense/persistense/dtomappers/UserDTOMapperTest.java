@@ -1,8 +1,8 @@
 package com.pintabar.persistense.persistense.dtomappers;
 
-import com.pintabar.persistence.dto.UserDTO;
+import com.pintabar.dto.UserDTO;
 import com.pintabar.persistence.dtomappers.UserDTOMapper;
-import com.pintabar.persistence.entities.user.User;
+import com.pintabar.entities.user.User;
 import org.junit.Before;
 import org.junit.Test;
 

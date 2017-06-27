@@ -1,6 +1,6 @@
 package com.pintabar.services;
 
-import com.pintabar.persistence.dto.UserDTO;
+import com.pintabar.dto.UserDTO;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,6 +1,6 @@
 package com.pintabar.persistence.repositories;
 
-import com.pintabar.persistence.entities.Menu;
+import com.pintabar.entities.Menu;
 import com.pintabar.persistence.repositories.custom.CustomMenuRepository;
 import com.pintabar.repositories.GenericJpaRepository;
 import org.springframework.transaction.annotation.Transactional;

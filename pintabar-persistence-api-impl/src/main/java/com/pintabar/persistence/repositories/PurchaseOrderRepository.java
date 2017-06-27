@@ -1,6 +1,6 @@
 package com.pintabar.persistence.repositories;
 
-import com.pintabar.persistence.entities.PurchaseOrder;
+import com.pintabar.entities.PurchaseOrder;
 import com.pintabar.persistence.repositories.custom.CustomPurchaseOrderRepository;
 import com.pintabar.repositories.GenericJpaRepository;
 

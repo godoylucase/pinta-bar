@@ -1,9 +1,9 @@
 package com.pintabar.services;
 
 import com.google.common.collect.Lists;
-import com.pintabar.persistence.dto.UserDTO;
+import com.pintabar.dto.UserDTO;
 import com.pintabar.persistence.dtomappers.UserDTOMapper;
-import com.pintabar.persistence.entities.user.User;
+import com.pintabar.entities.user.User;
 import com.pintabar.persistence.querydsl.predicates.UserPredicates;
 import com.pintabar.persistence.repositories.UserRepository;
 import com.querydsl.core.types.Predicate;

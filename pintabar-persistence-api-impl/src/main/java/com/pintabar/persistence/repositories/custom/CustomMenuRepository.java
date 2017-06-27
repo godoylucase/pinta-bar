@@ -1,6 +1,6 @@
 package com.pintabar.persistence.repositories.custom;
 
-import com.pintabar.persistence.entities.Menu;
+import com.pintabar.entities.Menu;
 
 import java.util.List;
 

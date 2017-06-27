@@ -1,6 +1,6 @@
 package com.pintabar.persistence.querydsl.predicates;
 
-import com.pintabar.persistence.entities.user.QUser;
+import com.pintabar.entities.user.QUser;
 import com.querydsl.core.types.Predicate;
 
 /**

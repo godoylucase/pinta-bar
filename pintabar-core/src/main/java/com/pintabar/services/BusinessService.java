@@ -4,10 +4,10 @@ import com.pintabar.exceptions.DataNotFoundException;
 import com.pintabar.exceptions.UserWithOpenedOrderException;
 import com.pintabar.exceptions.purchaseorder.ClosedPurchaseOrderException;
 import com.pintabar.exceptions.purchaseorder.InvalidPurchaseOrderException;
-import com.pintabar.persistence.dto.MenuDTO;
-import com.pintabar.persistence.dto.PurchaseOrderDTO;
-import com.pintabar.persistence.entities.TableUnit;
-import com.pintabar.persistence.entities.user.User;
+import com.pintabar.dto.MenuDTO;
+import com.pintabar.dto.PurchaseOrderDTO;
+import com.pintabar.entities.TableUnit;
+import com.pintabar.entities.user.User;
 import com.pintabar.webservices.request.OrderingWS;
 
 import java.util.List;

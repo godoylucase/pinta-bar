@@ -1,10 +1,8 @@
 package com.pintabar.persistence.repositories.impl;
 
-import com.pintabar.persistence.entities.PurchaseOrder;
-import com.pintabar.persistence.entities.PurchaseOrderStatus;
-import com.pintabar.persistence.entities.QPurchaseOrder;
-import com.pintabar.persistence.entities.user.QUser;
-import com.pintabar.persistence.entities.user.User;
+import com.pintabar.entities.PurchaseOrder;
+import com.pintabar.entities.PurchaseOrderStatus;
+import com.pintabar.entities.QPurchaseOrder;
 import com.pintabar.persistence.querydsl.predicates.PurchaseOrderPredicates;
 import com.pintabar.persistence.repositories.custom.CustomPurchaseOrderRepository;
 import com.querydsl.core.types.Predicate;

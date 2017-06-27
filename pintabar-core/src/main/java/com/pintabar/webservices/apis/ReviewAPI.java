@@ -1,6 +1,6 @@
 package com.pintabar.webservices.apis;
 
-import com.pintabar.persistence.dto.CommentDTO;
+import com.pintabar.dto.CommentDTO;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,6 @@ import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.net.URI;
 import java.util.List;
 

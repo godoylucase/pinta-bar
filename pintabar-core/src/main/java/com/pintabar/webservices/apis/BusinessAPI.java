@@ -1,6 +1,6 @@
 package com.pintabar.webservices.apis;
 
-import com.pintabar.persistence.dto.PurchaseOrderDTO;
+import com.pintabar.dto.PurchaseOrderDTO;
 import com.pintabar.services.BusinessService;
 import com.pintabar.services.TableUnitService;
 import com.pintabar.services.UserService;

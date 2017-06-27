@@ -1,8 +1,8 @@
 package com.pintabar.persistence.dtomappers;
 
 import com.pintabar.dtomappers.GenericDTOMapper;
-import com.pintabar.persistence.dto.PurchaseOrderDetailDTO;
-import com.pintabar.persistence.entities.PurchaseOrderDetail;
+import com.pintabar.dto.PurchaseOrderDetailDTO;
+import com.pintabar.entities.PurchaseOrderDetail;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;

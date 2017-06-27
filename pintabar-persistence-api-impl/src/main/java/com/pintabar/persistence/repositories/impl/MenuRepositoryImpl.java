@@ -1,7 +1,7 @@
 package com.pintabar.persistence.repositories.impl;
 
-import com.pintabar.persistence.entities.Menu;
-import com.pintabar.persistence.entities.QMenu;
+import com.pintabar.entities.Menu;
+import com.pintabar.entities.QMenu;
 import com.pintabar.persistence.querydsl.predicates.MenuPredicates;
 import com.pintabar.persistence.repositories.custom.CustomMenuRepository;
 import com.querydsl.core.types.dsl.BooleanExpression;
