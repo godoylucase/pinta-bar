@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="pintabar-core" />
+        <module name="pintabar-model-api" />
+        <module name="pintabar-model-api-impl" />
+        <module name="pintabar-persistence-api" />
+        <module name="pintabar-persistence-api-impl" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="pintabar" target="1.8" />
+      <module name="pintabar-core" target="1.8" />
+      <module name="pintabar-model-api" target="1.8" />
+      <module name="pintabar-model-api-impl" target="1.8" />
+      <module name="pintabar-persistence-api" target="1.8" />
+      <module name="pintabar-persistence-api-impl" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
