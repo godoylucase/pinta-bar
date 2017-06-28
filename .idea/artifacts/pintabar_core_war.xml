@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="pintabar-core:war">
+    <output-path>$PROJECT_DIR$/pintabar-core/target</output-path>
+    <root id="archive" name="pintabar-core-0.0.1-SNAPSHOT.war">
+      <element id="artifact" artifact-name="pintabar-core:war exploded" />
+    </root>
+  </artifact>
+</component>
