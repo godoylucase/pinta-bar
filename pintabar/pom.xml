@@ -23,11 +23,13 @@
     </properties>
 
     <modules>
-        <module>pintabar-core</module>
+        <module>pintabar-app</module>
         <module>pintabar-persistence-api</module>
         <module>pintabar-persistence-api-impl</module>
         <module>pintabar-model-api</module>
         <module>pintabar-model-api-impl</module>
+        <module>pintabar-service-api</module>
+        <module>pintabar-service-api-impl</module>
     </modules>
 
     <dependencies>
