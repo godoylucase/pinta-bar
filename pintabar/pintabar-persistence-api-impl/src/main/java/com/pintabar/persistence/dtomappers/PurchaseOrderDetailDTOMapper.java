@@ -1,7 +1,7 @@
 package com.pintabar.persistence.dtomappers;
 
-import com.pintabar.dtomappers.GenericDTOMapper;
 import com.pintabar.dto.PurchaseOrderDetailDTO;
+import com.pintabar.dtomappers.GenericDTOMapper;
 import com.pintabar.entities.PurchaseOrderDetail;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
@@ -27,10 +27,11 @@ public class PurchaseOrderDetailDTOMapper implements GenericDTOMapper<PurchaseOr
 		PurchaseOrderDetailDTO purchaseOrderDetailDTO = null;
 		if (purchaseOrderDetail != null) {
 			purchaseOrderDetailDTO = new PurchaseOrderDetailDTO();
-			if (purchaseOrderDetail.getItem() != null) {
-				purchaseOrderDetailDTO.setItem(menuItemDTOMapper.mapToDTO(purchaseOrderDetail.getItem()).orElse(null));
-				purchaseOrderDetailDTO.setQuantity(purchaseOrderDetail.getQuantity());
+			if (purchaseOrderDetail.getMenuItemInstance() != null) {
+				purchaseOrderDetailDTO.setMenuItemInstanceUuid(
+						purchaseOrderDetail.getMenuItemInstance().getUuid());
 			}
+			purchaseOrderDetailDTO.setQuantity(purchaseOrderDetail.getQuantity());
 			if (purchaseOrderDetail.getPurchaseOrder() != null) {
 				purchaseOrderDetailDTO.setPurchaseOrderUuid(purchaseOrderDetail.getPurchaseOrder().getUuid());
 			}

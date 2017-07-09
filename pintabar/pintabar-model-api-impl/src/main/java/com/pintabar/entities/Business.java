@@ -15,7 +15,9 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by lucasgodoy on 11/06/17.
@@ -37,7 +39,7 @@ public class Business extends UUIDBaseEntity implements IBusiness {
 	private boolean deleted = false;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "business")
-	private List<Menu> menues = new ArrayList<>();
+	private Set<Menu> menus = new HashSet<>();
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "business")
 	private List<TableUnit> tableUnits = new ArrayList<>();

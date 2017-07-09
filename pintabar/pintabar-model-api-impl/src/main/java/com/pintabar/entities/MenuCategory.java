@@ -13,10 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.OneToOne;
 
 /**
  * As prototyping phase no category will be available to be created
@@ -36,16 +33,17 @@ public class MenuCategory extends UUIDBaseEntity implements IMenuCategory{
 
 	private String name;
 
+	private String description;
+
+	@OneToOne
+	@JoinColumn(name = "business_id")
+	private Business business;
+
+	@OneToOne
+	@JoinColumn(name = "menu_category_instance_id")
+	private MenuCategoryInstance menuCategoryInstance = null;
+
 	@Enumerated(EnumType.STRING)
 	private MenuCategoryType type = MenuCategoryType.FOOD;
-
-	@ManyToMany(mappedBy = "categories")
-	private List<Menu> menues;
-
-	@ManyToMany
-	@JoinTable(name = "menu_category_menu_item",
-			joinColumns = {@JoinColumn(name = "menu_category_id")},
-			inverseJoinColumns = {@JoinColumn(name = "menu_item_id")})
-	private List<MenuItem> items = new ArrayList<>();
 
 }

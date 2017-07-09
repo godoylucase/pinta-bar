@@ -10,10 +10,8 @@ import lombok.Setter;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 /**
  * Created by lucasgodoy on 11/06/17.
@@ -25,18 +23,20 @@ import java.util.List;
 @Builder
 @Entity
 public class MenuItem extends UUIDBaseEntity implements IMenuItem {
+
 	private String name;
 
-	//private String description;
+	private String description;
+
+	@OneToOne
+	@JoinColumn(name = "business_id")
+	private Business business;
+
+	@OneToOne
+	@JoinColumn(name = "menu_item_instance_id")
+	private MenuItemInstance menuItemInstance = null;
 
 	@Type(type = "yes_no")
 	private boolean deleted = false;
 
-	@Type(type = "yes_no")
-	private boolean available = true;
-
-	private BigDecimal price = BigDecimal.ZERO;
-
-	@ManyToMany(mappedBy = "items")
-	public List<MenuCategory> categories = new ArrayList<>();
 }

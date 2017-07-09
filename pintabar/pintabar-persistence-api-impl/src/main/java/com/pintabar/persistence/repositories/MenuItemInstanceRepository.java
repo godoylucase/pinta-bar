@@ -1,12 +1,12 @@
 package com.pintabar.persistence.repositories;
 
-import com.pintabar.entities.Menu;
+import com.pintabar.entities.MenuItemInstance;
 import com.pintabar.repositories.GenericJpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Created by lucasgodoy on 18/06/17.
+ * Created by lucasgodoy on 23/06/17.
  */
 @Transactional
-public interface MenuRepository extends GenericJpaRepository<Menu, Long> {
+public interface MenuItemInstanceRepository extends GenericJpaRepository<MenuItemInstance, Long> {
 }

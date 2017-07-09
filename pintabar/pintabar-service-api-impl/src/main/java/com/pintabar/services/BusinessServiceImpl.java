@@ -1,27 +1,27 @@
 package com.pintabar.services;
 
 import com.google.common.base.Preconditions;
-import com.pintabar.exceptions.general.DataNotFoundException;
-import com.pintabar.exceptions.user.UserWithOpenedOrderException;
-import com.pintabar.exceptions.purchaseorder.ClosedPurchaseOrderException;
-import com.pintabar.exceptions.purchaseorder.InvalidPurchaseOrderException;
-import com.pintabar.dto.MenuDTO;
+import com.pintabar.dto.MenuInstanceDTO;
 import com.pintabar.dto.PurchaseOrderDTO;
-import com.pintabar.persistence.dtomappers.MenuDTOMapper;
-import com.pintabar.persistence.dtomappers.PurchaseOrderDTOMapper;
-import com.pintabar.entities.MenuItem;
+import com.pintabar.entities.MenuItemInstance;
 import com.pintabar.entities.PurchaseOrder;
 import com.pintabar.entities.PurchaseOrderDetail;
 import com.pintabar.entities.PurchaseOrderStatus;
 import com.pintabar.entities.TableUnit;
 import com.pintabar.entities.user.User;
-import com.pintabar.persistence.repositories.MenuItemRepository;
-import com.pintabar.persistence.repositories.MenuRepository;
+import com.pintabar.exceptions.ErrorCode;
+import com.pintabar.exceptions.general.DataNotFoundException;
+import com.pintabar.exceptions.purchaseorder.ClosedPurchaseOrderException;
+import com.pintabar.exceptions.purchaseorder.InvalidPurchaseOrderException;
+import com.pintabar.exceptions.user.UserWithOpenedOrderException;
+import com.pintabar.persistence.dtomappers.MenuInstanceDTOMapper;
+import com.pintabar.persistence.dtomappers.PurchaseOrderDTOMapper;
+import com.pintabar.persistence.repositories.MenuInstanceRepository;
+import com.pintabar.persistence.repositories.MenuItemInstanceRepository;
 import com.pintabar.persistence.repositories.PurchaseOrderRepository;
 import com.pintabar.persistence.repositories.TableUnitRepository;
 import com.pintabar.persistence.repositories.UserRepository;
 import com.pintabar.ws.OrderingWS;
-import com.pintabar.exceptions.ErrorCode;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,21 +40,22 @@ public class BusinessServiceImpl implements BusinessService {
 	private final UserRepository userRepository;
 	private final TableUnitRepository tableUnitRepository;
 	private final PurchaseOrderRepository purchaseOrderRepository;
-	private final MenuRepository menuRepository;
-	private final MenuItemRepository menuItemRepository;
+	private final MenuInstanceRepository menuInstanceRepository;
+	private final MenuItemInstanceRepository menuItemInstanceRepository;
 	private final PurchaseOrderDTOMapper purchaseOrderDTOMapper;
-	private final MenuDTOMapper menuDTOMapper;
+	private final MenuInstanceDTOMapper menuInstanceDTOMapper;
 
 	public BusinessServiceImpl(UserRepository userRepository, TableUnitRepository tableUnitRepository,
-	                           PurchaseOrderRepository purchaseOrderRepository, MenuRepository menuRepository,
-	                           MenuItemRepository menuItemRepository, PurchaseOrderDTOMapper purchaseOrderDTOMapper, MenuDTOMapper menuDTOMapper) {
+							   PurchaseOrderRepository purchaseOrderRepository, MenuInstanceRepository menuInstanceRepository,
+							   MenuItemInstanceRepository menuItemInstanceRepository, PurchaseOrderDTOMapper purchaseOrderDTOMapper,
+							   MenuInstanceDTOMapper menuInstanceDTOMapper) {
 		this.userRepository = userRepository;
 		this.tableUnitRepository = tableUnitRepository;
 		this.purchaseOrderRepository = purchaseOrderRepository;
-		this.menuRepository = menuRepository;
-		this.menuItemRepository = menuItemRepository;
+		this.menuInstanceRepository = menuInstanceRepository;
+		this.menuItemInstanceRepository = menuItemInstanceRepository;
 		this.purchaseOrderDTOMapper = purchaseOrderDTOMapper;
-		this.menuDTOMapper = menuDTOMapper;
+		this.menuInstanceDTOMapper = menuInstanceDTOMapper;
 	}
 
 	@Override
@@ -83,17 +84,17 @@ public class BusinessServiceImpl implements BusinessService {
 
 	@Override
 	@Transactional
-	public List<MenuDTO> getMenus(String businessUuid) {
-		return getMenus(businessUuid, null);
+	public List<MenuInstanceDTO> getMenuInstances(String businessUuid) {
+		return getMenuInstances(businessUuid, null);
 	}
 
 	@Override
 	@Transactional
-	public List<MenuDTO> getMenus(String businessUuid, Boolean isDeleted) {
+	public List<MenuInstanceDTO> getMenuInstances(String businessUuid, Boolean isDeleted) {
 		Preconditions.checkNotNull(businessUuid);
-		return menuRepository.findAllMenusByBusinessUuid(businessUuid, isDeleted)
+		return menuInstanceRepository.findAllMenuInstancesByBusinessUuid(businessUuid, isDeleted)
 				.stream()
-				.map(menu -> menuDTOMapper.mapToDTO(menu).get())
+				.map(menuInstance -> menuInstanceDTOMapper.mapToDTO(menuInstance).orElse(null))
 				.collect(Collectors.toList());
 	}
 
@@ -120,28 +121,21 @@ public class BusinessServiceImpl implements BusinessService {
 	}
 
 	private List<PurchaseOrderDetail> processPurchaseOrderDetailsFromMap(Map<String, BigDecimal> purchaseOrderLinesMap,
-	                                                                     PurchaseOrder purchaseOrder) throws DataNotFoundException {
+																		 PurchaseOrder purchaseOrder) throws DataNotFoundException {
 		try {
 			return purchaseOrderLinesMap.entrySet().stream()
 					.map(entry -> {
-						MenuItem menuItem = menuItemRepository.findByUuid(entry.getKey())
+						MenuItemInstance menuItemInstance = menuItemInstanceRepository.findByUuid(entry.getKey())
 								.orElseThrow(IllegalArgumentException::new);
-						if (!validateMenuItem(menuItem)) {
+						if (!menuItemInstance.isFullAvailable()) {
 							throw new IllegalArgumentException();
 						}
-						return new PurchaseOrderDetail(entry.getValue(), menuItem, purchaseOrder);
+						return new PurchaseOrderDetail(entry.getValue(), menuItemInstance, purchaseOrder);
 					}).collect(Collectors.toList());
 		} catch (IllegalArgumentException ex) {
 			// temporal work around before implementing custom Function for above lambda expression
 			throw new DataNotFoundException(ErrorCode.MENU_ITEM_NOT_FOUND);
 		}
-	}
-
-	private boolean validateMenuItem(MenuItem menuItem) {
-		return menuItem.getCategories().parallelStream()
-				.anyMatch(menuCategory -> !menuCategory.isDeleted()
-						&& menuCategory.getMenues().parallelStream()
-						.anyMatch(menu -> !menu.isDeleted()));
 	}
 
 	private PurchaseOrder createOrder(User user, TableUnit tableUnit) {

@@ -11,11 +11,8 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.OneToOne;
 
 /**
  * Created by lucasgodoy on 11/06/17.
@@ -30,16 +27,15 @@ public class Menu extends UUIDBaseEntity implements IMenu {
 
 	private String name;
 
-	@Type(type = "yes_no")
-	private boolean deleted = false;
-
 	@ManyToOne
 	@JoinColumn(name = "business_id")
 	private Business business;
 
-	@ManyToMany
-	@JoinTable(name = "menu_menu_category",
-			joinColumns = {@JoinColumn(name = "menu_id")},
-			inverseJoinColumns = {@JoinColumn(name = "menu_category_id")})
-	private List<MenuCategory> categories = new ArrayList<>();
+	@OneToOne
+	@JoinColumn(name = "menu_instance_id")
+	private MenuInstance menuInstance = null;
+
+	@Type(type = "yes_no")
+	private boolean deleted = false;
+
 }

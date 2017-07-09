@@ -1,7 +1,7 @@
 package com.pintabar.persistence.dtomappers;
 
-import com.pintabar.dtomappers.GenericDTOMapper;
 import com.pintabar.dto.UserDTO;
+import com.pintabar.dtomappers.GenericDTOMapper;
 import com.pintabar.entities.user.User;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;

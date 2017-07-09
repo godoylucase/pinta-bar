@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1" author="lucasgodoy">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <tableExists tableName="user"/>
+            </not>
+        </preConditions>
+        <createTable tableName="user">
+            <column name="id" type="BIGINT(50)" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="created_on" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_on" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="uuid" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="username" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="deleted" type="CHAR(1)" defaultValue="N"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="lucasgodoy">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <tableExists tableName="user_profile_employee"/>
+            </not>
+        </preConditions>
+        <createTable tableName="user_profile_employee">
+            <column name="id" type="BIGINT(50)" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="created_on" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_on" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="uuid" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="personal_info" type="LONGTEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="user_profile_employee"
+                                 constraintName="user_profile_employee_fk"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user"/>
+        <createIndex tableName="user_profile_employee" indexName="user_profile_employee_idx">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="3" author="lucasgodoy">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <tableExists tableName="business"/>
+            </not>
+        </preConditions>
+        <createTable tableName="business">
+            <column name="id" type="BIGINT(50)" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="created_on" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_on" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="uuid" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="type" type="VARCHAR(255)">
+                <constraints nullable="false" unique="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="deleted" type="CHAR(1)" defaultValue="N"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="4" author="lucasgodoy">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <tableExists tableName="table_unit"/>
+            </not>
+        </preConditions>
+        <createTable tableName="table_unit">
+            <column name="id" type="BIGINT(50)" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="created_on" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_on" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="uuid" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="internal_number" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="business_id" type="BIGINT(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="business_id"
+                                 baseTableName="table_unit"
+                                 constraintName="table_business_fk"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="id"
+                                 referencedTableName="business"/>
+        <createIndex tableName="table_unit" indexName="table_business_idx">
+            <column name="business_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="5" author="lucasgodoy">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <tableExists tableName="menu_instance"/>
+            </not>
+        </preConditions>
+        <createTable tableName="menu_instance">
+            <column name="id" type="BIGINT(50)" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="created_on" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_on" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="uuid" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="available" type="CHAR(1)" defaultValue="Y"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="6" author="lucasgodoy">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <tableExists tableName="menu"/>
+            </not>
+        </preConditions>
+        <createTable tableName="menu">
+            <column name="id" type="BIGINT(50)" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="created_on" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_on" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="uuid" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="deleted" type="CHAR(1)" defaultValue="N"/>
+            <column name="business_id" type="BIGINT(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="menu_instance_id" type="BIGINT(50)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="business_id"
+                                 baseTableName="menu"
+                                 constraintName="menu_business_fk"
+                                 referencedColumnNames="id"
+                                 referencedTableName="business"/>
+        <createIndex tableName="menu" indexName="menu_business_idx">
+            <column name="business_id"/>
+        </createIndex>
+        <addForeignKeyConstraint baseColumnNames="menu_instance_id"
+                                 baseTableName="menu"
+                                 constraintName="menu_menu_instance_fk"
+                                 referencedColumnNames="id"
+                                 referencedTableName="menu_instance"/>
+    </changeSet>
+
+    <changeSet id="7" author="lucasgodoy">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <tableExists tableName="menu_category_instance"/>
+            </not>
+        </preConditions>
+        <createTable tableName="menu_category_instance">
+            <column name="id" type="BIGINT(50)" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="created_on" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_on" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="uuid" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="available" type="CHAR(1)" defaultValue="Y"/>
+            <column name="menu_instance_id" type="BIGINT(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="menu_instance_id"
+                                 baseTableName="menu_category_instance"
+                                 constraintName="menu_category_instance_menu_instance_fk"
+                                 referencedColumnNames="id"
+                                 referencedTableName="menu_instance"/>
+        <createIndex tableName="menu_category_instance" indexName="menu_category_instance_menu_instance_idx">
+            <column name="menu_instance_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="8" author="lucasgodoy">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <tableExists tableName="menu_category"/>
+            </not>
+        </preConditions>
+        <createTable tableName="menu_category">
+            <column name="id" type="BIGINT(50)" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="created_on" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_on" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="uuid" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="description" type="TEXT">
+                <constraints nullable="false" unique="false"/>
+            </column>
+            <column name="type" type="VARCHAR(255)">
+                <constraints nullable="false" unique="false"/>
+            </column>
+            <column name="deleted" type="CHAR(1)" defaultValue="N"/>
+            <column name="business_id" type="BIGINT(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="menu_category_instance_id" type="BIGINT(50)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="business_id"
+                                 baseTableName="menu_category"
+                                 constraintName="menu_category_business_fk"
+                                 referencedColumnNames="id"
+                                 referencedTableName="business"/>
+        <createIndex tableName="menu_category" indexName="menu_category_business_idx">
+            <column name="business_id"/>
+        </createIndex>
+        <addForeignKeyConstraint baseColumnNames="menu_category_instance_id"
+                                 baseTableName="menu_category"
+                                 constraintName="menu_category_menu_category_instance_fk"
+                                 referencedColumnNames="id"
+                                 referencedTableName="menu_category_instance"/>
+    </changeSet>
+
+    <changeSet id="9" author="lucasgodoy">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <tableExists tableName="menu_item_instance"/>
+            </not>
+        </preConditions>
+        <createTable tableName="menu_item_instance">
+            <column name="id" type="BIGINT(50)" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="created_on" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_on" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="uuid" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="available" type="CHAR(1)" defaultValue="Y"/>
+            <column name="price" type="DOUBLE" defaultValueNumeric="0"/>
+            <column name="menu_category_instance_id" type="BIGINT(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="menu_category_instance_id"
+                                 baseTableName="menu_item_instance"
+                                 constraintName="menu_item_instance_menu_category_instance_fk"
+                                 referencedColumnNames="id"
+                                 referencedTableName="menu_category_instance"/>
+        <createIndex tableName="menu_item_instance" indexName="menu_item_instance_menu_category_instance_fk">
+            <column name="menu_category_instance_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="10" author="lucasgodoy">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <tableExists tableName="menu_item"/>
+            </not>
+        </preConditions>
+        <createTable tableName="menu_item">
+            <column name="id" type="BIGINT(50)" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="created_on" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_on" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="uuid" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="description" type="TEXT">
+                <constraints nullable="false" unique="false"/>
+            </column>
+            <column name="deleted" type="CHAR(1)" defaultValue="N"/>
+            <column name="business_id" type="BIGINT(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="menu_item_instance_id" type="BIGINT(50)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="business_id"
+                                 baseTableName="menu_item"
+                                 constraintName="menu_item_business_fk"
+                                 referencedColumnNames="id"
+                                 referencedTableName="business"/>
+        <createIndex tableName="menu_item" indexName="menu_item_business_idx">
+            <column name="business_id"/>
+        </createIndex>
+        <addForeignKeyConstraint baseColumnNames="menu_item_instance_id"
+                                 baseTableName="menu_item"
+                                 constraintName="menu_item_menu_item_instance_fk"
+                                 referencedColumnNames="id"
+                                 referencedTableName="menu_item_instance"/>
+    </changeSet>
+
+    <changeSet id="11" author="lucasgodoy">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <tableExists tableName="purchase_order"/>
+            </not>
+        </preConditions>
+        <createTable tableName="purchase_order">
+            <column name="id" type="BIGINT(50)" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="created_on" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_on" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="uuid" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="status" type="VARCHAR(255)">
+                <constraints nullable="false" unique="false"/>
+            </column>
+            <column name="table_unit_id" type="BIGINT(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="table_unit_id"
+                                 baseTableName="purchase_order"
+                                 constraintName="purchase_order_table_unit_fk"
+                                 referencedColumnNames="id"
+                                 referencedTableName="table_unit"/>
+        <createIndex tableName="purchase_order" indexName="purchase_order_table_unit_idx">
+            <column name="table_unit_id"/>
+        </createIndex>
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="purchase_order"
+                                 constraintName="purchase_order_user_fk"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user"/>
+        <createIndex tableName="purchase_order" indexName="purchase_order_user_idx">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="12" author="lucasgodoy">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <tableExists tableName="purchase_order_detail"/>
+            </not>
+        </preConditions>
+        <createTable tableName="purchase_order_detail">
+            <column name="id" type="BIGINT(50)" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="created_on" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_on" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="purchase_order_id" type="BIGINT(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="menu_item_instance_id" type="BIGINT(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="purchase_order_id"
+                                 baseTableName="purchase_order_detail"
+                                 constraintName="purchase_order_detail_purchase_order_fk"
+                                 referencedColumnNames="id"
+                                 referencedTableName="purchase_order"/>
+        <createIndex tableName="purchase_order_detail" indexName="purchase_order_detail_purchase_order_idx">
+            <column name="purchase_order_id"/>
+        </createIndex>
+        <addForeignKeyConstraint baseColumnNames="menu_item_instance_id"
+                                 baseTableName="purchase_order_detail"
+                                 constraintName="purchase_order_detail_menu_item_instance_fk"
+                                 referencedColumnNames="id"
+                                 referencedTableName="menu_item_instance"/>
+    </changeSet>
+    <changeSet id="13" author="lucasgodoy">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <columnExists columnName="quantity" tableName="purchase_order_detail"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="purchase_order_detail">
+            <column name="quantity" type="DOUBLE" defaultValueNumeric="0"/>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>
