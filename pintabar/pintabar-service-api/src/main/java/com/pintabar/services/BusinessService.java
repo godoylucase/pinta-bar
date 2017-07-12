@@ -1,7 +1,7 @@
 package com.pintabar.services;
 
 
-import com.pintabar.dto.MenuDTO;
+import com.pintabar.dto.MenuInstanceDTO;
 import com.pintabar.dto.PurchaseOrderDTO;
 import com.pintabar.entities.TableUnit;
 import com.pintabar.entities.user.User;
@@ -25,9 +25,9 @@ public interface BusinessService {
 	Optional<PurchaseOrderDTO> checkInUserToTable(User user, TableUnit tableDTO)
 			throws UserWithOpenedOrderException;
 
-	List<MenuDTO> getMenus(String businessUuid);
+	List<MenuInstanceDTO> getMenuInstances(String businessUuid);
 
-	List<MenuDTO> getMenus(String businessUuid, Boolean isDeleted);
+	List<MenuInstanceDTO> getMenuInstances(String businessUuid, Boolean isDeleted);
 
 	PurchaseOrderDTO addItemsToPurchaseOrder(String purchaseOrderUuid, OrderingWS orderingWS)
 			throws InvalidPurchaseOrderException, ClosedPurchaseOrderException, DataNotFoundException;

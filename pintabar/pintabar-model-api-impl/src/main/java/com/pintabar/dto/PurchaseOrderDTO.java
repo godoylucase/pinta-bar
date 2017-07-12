@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,5 +25,5 @@ public class PurchaseOrderDTO extends BaseDTO implements IPurchaseOrder {
 	private PurchaseOrderStatus status = com.pintabar.entities.PurchaseOrderStatus.OPENED;
 	private String tableUuid;
 	private String userUuid;
-	private List<PurchaseOrderDetailDTO> orderDetail;
+	private List<PurchaseOrderDetailDTO> orderDetail = new ArrayList<>();
 }

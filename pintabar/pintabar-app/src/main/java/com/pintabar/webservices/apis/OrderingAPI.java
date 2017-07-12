@@ -4,8 +4,6 @@ import com.pintabar.dto.PurchaseOrderDTO;
 import com.pintabar.exceptions.AppException;
 import com.pintabar.exceptions.ErrorCode;
 import com.pintabar.services.BusinessService;
-import com.pintabar.services.TableUnitService;
-import com.pintabar.services.UserService;
 import com.pintabar.ws.OrderingWS;
 import org.springframework.stereotype.Component;
 
@@ -27,19 +25,14 @@ import javax.ws.rs.core.UriInfo;
  * Created by lucasgodoy on 13/06/17.
  */
 @Component
-@Path("/business")
+@Path("/ordering")
 @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-public class BusinessAPI {
+public class OrderingAPI {
 
-	private final UserService userService;
-	private final TableUnitService tableUnitService;
 	private final BusinessService businessService;
 
-	public BusinessAPI(UserService userService, TableUnitService tableUnitService,
-	                   BusinessService businessService) {
-		this.userService = userService;
-		this.tableUnitService = tableUnitService;
+	public OrderingAPI(BusinessService businessService) {
 		this.businessService = businessService;
 	}
 
@@ -57,8 +50,8 @@ public class BusinessAPI {
 	}
 
 	@PUT
-	@Path("/ordering/purchaseOrder/{purchaseOrderUuid}/addItems")
-	public Response addItemsToPurchaseOrder(
+	@Path("/purchaseOrder/{purchaseOrderUuid}/addMenuItemInstances")
+	public Response addMenuItemInstancesToPurchaseOrder(
 			@PathParam("purchaseOrderUuid") String purchaseOrderUuid,
 			OrderingWS orderingWS) throws AppException {
 		PurchaseOrderDTO purchaseOrderDTO =
@@ -69,10 +62,10 @@ public class BusinessAPI {
 	}
 
 	@GET
-	@Path("/{businessUuid}/menu")
-	public Response getMenus(
+	@Path("/business/{businessUuid}/menuInstance")
+	public Response getMenuInstances(
 			@PathParam("businessUuid") String businessUuid,
 			@DefaultValue("false") @QueryParam("isDeleted") boolean isDeleted) {
-		return Response.ok(businessService.getMenus(businessUuid, isDeleted)).build();
+		return Response.ok(businessService.getMenuInstances(businessUuid, isDeleted)).build();
 	}
 }

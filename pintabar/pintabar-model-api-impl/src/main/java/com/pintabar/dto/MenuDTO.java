@@ -7,8 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Created by lucasgodoy on 18/06/17.
@@ -18,9 +17,10 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@XmlRootElement
 public class MenuDTO extends BaseDTO implements IMenu {
 	private String name;
 	private boolean deleted = false;
 	private String businessUuid;
-	private List<MenuCategoryDTO> categories = new ArrayList<>();
+	private String menuInstanceUuid;
 }

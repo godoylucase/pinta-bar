@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 @Builder
 @XmlRootElement
 public class PurchaseOrderDetailDTO extends BaseDTO implements IPurchaseOrderDetail {
-	private MenuItemDTO item;
 	private BigDecimal quantity = BigDecimal.ZERO;
 	private String purchaseOrderUuid;
+	private String menuItemInstanceUuid;
 }

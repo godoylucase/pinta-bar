@@ -1,7 +1,7 @@
 package com.pintabar.webservices.config;
 
 import com.pintabar.PintabarServerApplication;
-import com.pintabar.webservices.apis.BusinessAPI;
+import com.pintabar.webservices.apis.OrderingAPI;
 import com.pintabar.webservices.apis.ReviewAPI;
 import com.pintabar.webservices.apis.UserAPI;
 import org.glassfish.jersey.filter.LoggingFilter;
@@ -20,7 +20,7 @@ public class JerseyConfig extends ResourceConfig {
 	public JerseyConfig() {
 		packages("com.pintabar.webservices.apis.exception.mappers");
 		register(UserAPI.class);
-		register(BusinessAPI.class);
+		register(OrderingAPI.class);
 		register(ReviewAPI.class);
 		register(new LoggingFilter(Logger.getLogger(PintabarServerApplication.class.getName()), true));
 	}

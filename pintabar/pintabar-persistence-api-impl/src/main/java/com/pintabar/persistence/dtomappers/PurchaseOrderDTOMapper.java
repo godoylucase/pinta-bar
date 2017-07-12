@@ -1,7 +1,7 @@
 package com.pintabar.persistence.dtomappers;
 
-import com.pintabar.dtomappers.GenericDTOMapper;
 import com.pintabar.dto.PurchaseOrderDTO;
+import com.pintabar.dtomappers.GenericDTOMapper;
 import com.pintabar.entities.PurchaseOrder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Created by lucasgodoy on 14/06/17.
@@ -16,31 +17,35 @@ import java.util.Optional;
 @Component
 public class PurchaseOrderDTOMapper implements GenericDTOMapper<PurchaseOrder, PurchaseOrderDTO> {
 
-	private final UserDTOMapper userDTOMapper;
-	private final TableUnitDTOMapper tableUnitDTOMapper;
+	private final PurchaseOrderDetailDTOMapper purchaseOrderDetailDTOMapper;
 
-	public PurchaseOrderDTOMapper(UserDTOMapper userDTOMapper, TableUnitDTOMapper tableUnitDTOMapper) {
-		this.userDTOMapper = userDTOMapper;
-		this.tableUnitDTOMapper = tableUnitDTOMapper;
+	public PurchaseOrderDTOMapper(PurchaseOrderDetailDTOMapper purchaseOrderDetailDTOMapper) {
+		this.purchaseOrderDetailDTOMapper = purchaseOrderDetailDTOMapper;
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS)
-	public Optional<PurchaseOrderDTO> mapToDTO(@Nullable PurchaseOrder purchaseOrder) {
-		PurchaseOrderDTO purchaseOrderDTO = null;
-		if (purchaseOrder != null) {
-			purchaseOrderDTO = new PurchaseOrderDTO();
-			if (purchaseOrder.getUser() != null) {
-				purchaseOrderDTO.setUserUuid(purchaseOrder.getUser().getUuid());
+	public Optional<PurchaseOrderDTO> mapToDTO(@Nullable PurchaseOrder entity) {
+		PurchaseOrderDTO dto = null;
+		if (entity != null) {
+			dto = new PurchaseOrderDTO();
+			if (entity.getUser() != null) {
+				dto.setUserUuid(entity.getUser().getUuid());
 			}
-			if (purchaseOrder.getTableUnit() != null) {
-				purchaseOrderDTO.setTableUuid(purchaseOrder.getTableUnit().getUuid());
+			if (entity.getTableUnit() != null) {
+				dto.setTableUuid(entity.getTableUnit().getUuid());
 			}
-			purchaseOrderDTO.setStatus(purchaseOrder.getStatus());
-			purchaseOrderDTO.setUuid(purchaseOrder.getUuid());
-			purchaseOrderDTO.setCreatedOn(purchaseOrder.getCreatedOn());
-			purchaseOrderDTO.setUpdatedOn(purchaseOrder.getUpdatedOn());
+			dto.getOrderDetail().addAll(
+					entity.getDetails()
+							.stream()
+							.map(detail -> purchaseOrderDetailDTOMapper.mapToDTO(detail).orElse(null))
+							.collect(Collectors.toList())
+			);
+			dto.setStatus(entity.getStatus());
+			dto.setUuid(entity.getUuid());
+			dto.setCreatedOn(entity.getCreatedOn());
+			dto.setUpdatedOn(entity.getUpdatedOn());
 		}
-		return Optional.ofNullable(purchaseOrderDTO);
+		return Optional.ofNullable(dto);
 	}
 }

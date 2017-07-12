@@ -27,8 +27,8 @@ public class PurchaseOrderDetail extends TimestampedBaseEntity {
 	private BigDecimal quantity = BigDecimal.ZERO;
 
 	@OneToOne
-	@JoinColumn(name = "item_id")
-	private MenuItem item;
+	@JoinColumn(name = "menu_item_instance_id")
+	private MenuItemInstance menuItemInstance;
 
 	@ManyToOne
 	@JoinColumn(name = "purchase_order_id")
