@@ -6,6 +6,7 @@ import com.pintabar.exceptions.ErrorCode;
 import com.pintabar.services.BusinessService;
 import com.pintabar.webservices.apis.OrderingAPI;
 import com.pintabar.ws.OrderingWS;
+import com.pintabar.ws.PurchaseOrderResumeWS;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.Consumes;
@@ -49,6 +50,17 @@ public class OrderingAPIImpl implements OrderingAPI {
 				.entity(purchaseOrderDTO)
 				.build();
 	}
+
+	@Override
+	public Response checkoutPurchaseOrder(String purchaseOrderUuid) throws AppException {
+		PurchaseOrderDTO purchaseOrderDTO = businessService.checkoutPurchaseOrder(purchaseOrderUuid)
+				.orElseThrow(() -> new AppException(ErrorCode.INTERNAL_ERROR));
+
+		PurchaseOrderResumeWS purchaseOrderResumeWS = businessService.buildPurchaseOrderResume(purchaseOrderDTO);
+
+		return Response.status(Response.Status.OK)
+				.entity(purchaseOrderResumeWS)
+				.build();	}
 
 	public Response getMenuInstances(String businessUuid, boolean isDeleted) {
 		return Response.ok(businessService.getMenuInstances(businessUuid, isDeleted)).build();

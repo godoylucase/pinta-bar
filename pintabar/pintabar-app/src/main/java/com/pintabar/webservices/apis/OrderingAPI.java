@@ -38,6 +38,11 @@ public interface OrderingAPI {
 			@PathParam("purchaseOrderUuid") String purchaseOrderUuid,
 			OrderingWS orderingWS) throws AppException;
 
+	@POST
+	@Path("/purchaseOrder/{purchaseOrderUuid}")
+	public Response checkoutPurchaseOrder(
+			@PathParam("purchaseOrderUuid") String purchaseOrderUuid) throws AppException;
+
 	@GET
 	@Path("/business/{businessUuid}/menuInstance")
 	public Response getMenuInstances(

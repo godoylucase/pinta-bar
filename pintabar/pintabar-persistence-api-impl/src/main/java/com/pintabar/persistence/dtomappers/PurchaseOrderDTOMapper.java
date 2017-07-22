@@ -35,7 +35,7 @@ public class PurchaseOrderDTOMapper implements GenericDTOMapper<PurchaseOrder, P
 			if (entity.getTableUnit() != null) {
 				dto.setTableUuid(entity.getTableUnit().getUuid());
 			}
-			dto.getOrderDetail().addAll(
+			dto.getPurchaseOrderDetails().addAll(
 					entity.getDetails()
 							.stream()
 							.map(detail -> purchaseOrderDetailDTOMapper.mapToDTO(detail).orElse(null))

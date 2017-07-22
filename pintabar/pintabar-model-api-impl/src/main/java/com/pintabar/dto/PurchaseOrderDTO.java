@@ -25,5 +25,5 @@ public class PurchaseOrderDTO extends BaseDTO implements IPurchaseOrder {
 	private PurchaseOrderStatus status = com.pintabar.entities.PurchaseOrderStatus.OPENED;
 	private String tableUuid;
 	private String userUuid;
-	private List<PurchaseOrderDetailDTO> orderDetail = new ArrayList<>();
+	private List<PurchaseOrderDetailDTO> purchaseOrderDetails = new ArrayList<>();
 }

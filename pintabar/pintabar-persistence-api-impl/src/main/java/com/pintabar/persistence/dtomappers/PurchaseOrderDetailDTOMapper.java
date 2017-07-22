@@ -15,10 +15,10 @@ import java.util.Optional;
 @Component
 public class PurchaseOrderDetailDTOMapper implements GenericDTOMapper<PurchaseOrderDetail, PurchaseOrderDetailDTO> {
 
-	private final MenuItemDTOMapper menuItemDTOMapper;
+	private final MenuItemInstanceDTOMapper menuItemInstanceDTOMapper;
 
-	public PurchaseOrderDetailDTOMapper(MenuItemDTOMapper menuItemDTOMapper) {
-		this.menuItemDTOMapper = menuItemDTOMapper;
+	public PurchaseOrderDetailDTOMapper(MenuItemInstanceDTOMapper menuItemInstanceDTOMapper) {
+		this.menuItemInstanceDTOMapper = menuItemInstanceDTOMapper;
 	}
 
 	@Override
@@ -28,8 +28,8 @@ public class PurchaseOrderDetailDTOMapper implements GenericDTOMapper<PurchaseOr
 		if (purchaseOrderDetail != null) {
 			purchaseOrderDetailDTO = new PurchaseOrderDetailDTO();
 			if (purchaseOrderDetail.getMenuItemInstance() != null) {
-				purchaseOrderDetailDTO.setMenuItemInstanceUuid(
-						purchaseOrderDetail.getMenuItemInstance().getUuid());
+				purchaseOrderDetailDTO.setMenuItemInstance(
+						menuItemInstanceDTOMapper.mapToDTO(purchaseOrderDetail.getMenuItemInstance()).orElse(null));
 			}
 			purchaseOrderDetailDTO.setQuantity(purchaseOrderDetail.getQuantity());
 			if (purchaseOrderDetail.getPurchaseOrder() != null) {
