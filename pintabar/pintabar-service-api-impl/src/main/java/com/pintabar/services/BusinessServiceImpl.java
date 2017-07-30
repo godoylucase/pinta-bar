@@ -22,6 +22,8 @@ import com.pintabar.persistence.repositories.PurchaseOrderRepository;
 import com.pintabar.persistence.repositories.TableUnitRepository;
 import com.pintabar.persistence.repositories.UserRepository;
 import com.pintabar.ws.OrderingWS;
+import com.pintabar.ws.PurchaseOrderDetailWS;
+import com.pintabar.ws.PurchaseOrderResumeWS;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -118,6 +120,44 @@ public class BusinessServiceImpl implements BusinessService {
 				.addAll(processPurchaseOrderDetailsFromMap(orderingWS.getPurchaseOrderLinesMap(), purchaseOrder));
 
 		return purchaseOrderDTOMapper.mapToDTO(purchaseOrder).orElse(null);
+	}
+
+	@Override
+	@Transactional
+	public Optional<PurchaseOrderDTO> checkoutPurchaseOrder(String purchaseOrderUuid) throws DataNotFoundException, ClosedPurchaseOrderException {
+		PurchaseOrder purchaseOrder = purchaseOrderRepository.findByUuid(purchaseOrderUuid)
+				.orElseThrow(() -> new DataNotFoundException(ErrorCode.PURCHASE_ORDER_NOT_FOUND));
+
+		if (PurchaseOrderStatus.CLOSED_STATUSES.contains(purchaseOrder.getStatus())) {
+			throw new ClosedPurchaseOrderException(ErrorCode.PURCHASE_ORDER_ALREADY_CLOSED);
+		}
+
+		purchaseOrder.setStatus(PurchaseOrderStatus.CLOSED_TO_BE_PAID);
+
+		return purchaseOrderDTOMapper.mapToDTO(purchaseOrder);
+	}
+
+	@Override
+	public PurchaseOrderResumeWS buildPurchaseOrderResume(PurchaseOrderDTO purchaseOrderDTO) {
+		PurchaseOrderResumeWS purchaseOrderResumeWS = new PurchaseOrderResumeWS();
+		purchaseOrderResumeWS.setPurchaseOrderUuid(purchaseOrderDTO.getUuid());
+		purchaseOrderResumeWS.setTableUnitUuid(purchaseOrderDTO.getTableUuid());
+		purchaseOrderResumeWS.getPurchaseOrderDetailsWS().addAll(
+				buildPurchaseOrderDetailsWS(purchaseOrderDTO));
+		return purchaseOrderResumeWS;
+	}
+
+	private List<PurchaseOrderDetailWS> buildPurchaseOrderDetailsWS(PurchaseOrderDTO purchaseOrderDTO) {
+		return purchaseOrderDTO.getPurchaseOrderDetails()
+				.stream()
+				.map(pod -> {
+					PurchaseOrderDetailWS pows = new PurchaseOrderDetailWS();
+					pows.setMenuItemInstanceUuid(pod.getMenuItemInstance().getUuid());
+					pows.setMenuItemInstanceName(pod.getMenuItemInstance().getMenuItem().getName());
+					pows.setQuantity(pod.getQuantity());
+					pows.setPrice(pod.getMenuItemInstance().getPrice());
+					return pows;
+				}).collect(Collectors.toList());
 	}
 
 	private List<PurchaseOrderDetail> processPurchaseOrderDetailsFromMap(Map<String, BigDecimal> purchaseOrderLinesMap,

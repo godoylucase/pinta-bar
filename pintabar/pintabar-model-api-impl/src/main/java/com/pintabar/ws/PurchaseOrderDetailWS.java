@@ -1,6 +1,5 @@
-package com.pintabar.dto;
+package com.pintabar.ws;
 
-import com.pintabar.interfaces.IPurchaseOrderDetail;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,16 +10,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.math.BigDecimal;
 
 /**
- * Created by lucasgodoy on 14/06/17.
+ * @author Lucas.Godoy on 22/07/17.
  */
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @XmlRootElement
-public class PurchaseOrderDetailDTO extends BaseDTO implements IPurchaseOrderDetail {
+public class PurchaseOrderDetailWS implements BaseWS {
+	private String menuItemInstanceUuid;
+	private String menuItemInstanceName;
 	private BigDecimal quantity = BigDecimal.ZERO;
-	private String purchaseOrderUuid;
-	private MenuItemInstanceDTO menuItemInstance;
+	private BigDecimal price = BigDecimal.ZERO;
 }

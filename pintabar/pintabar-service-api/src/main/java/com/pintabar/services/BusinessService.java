@@ -10,6 +10,7 @@ import com.pintabar.exceptions.purchaseorder.ClosedPurchaseOrderException;
 import com.pintabar.exceptions.purchaseorder.InvalidPurchaseOrderException;
 import com.pintabar.exceptions.user.UserWithOpenedOrderException;
 import com.pintabar.ws.OrderingWS;
+import com.pintabar.ws.PurchaseOrderResumeWS;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,4 +32,8 @@ public interface BusinessService {
 
 	PurchaseOrderDTO addItemsToPurchaseOrder(String purchaseOrderUuid, OrderingWS orderingWS)
 			throws InvalidPurchaseOrderException, ClosedPurchaseOrderException, DataNotFoundException;
+
+	Optional<PurchaseOrderDTO> checkoutPurchaseOrder(String purchaseOrderUuid) throws DataNotFoundException, ClosedPurchaseOrderException;
+
+	PurchaseOrderResumeWS buildPurchaseOrderResume(PurchaseOrderDTO purchaseOrderDTO);
 }
