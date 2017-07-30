@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @XmlRootElement
 public class PurchaseOrderDetailWS implements BaseWS {
+	private String userUuid;
 	private String menuItemInstanceUuid;
 	private String menuItemInstanceName;
 	private BigDecimal quantity = BigDecimal.ZERO;

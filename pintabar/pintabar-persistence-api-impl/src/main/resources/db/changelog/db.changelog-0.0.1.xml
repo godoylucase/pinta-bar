@@ -469,4 +469,19 @@
             <column name="quantity" type="DOUBLE" defaultValueNumeric="0"/>
         </addColumn>
     </changeSet>
+    <changeSet id="14" author="lucasgodoy">
+        <preConditions>
+            <not>
+                <columnExists tableName="purchase_order_detail" columnName="user_id"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="purchase_order_detail">
+            <column name="user_id" type="BIGINT(50)"/>
+        </addColumn>
+        <sql>
+            UPDATE purchase_order_detail pod INNER JOIN purchase_order po
+            ON pod.purchase_order_id=po.id
+            SET pod.user_id=po.user_id;
+        </sql>
+    </changeSet>
 </databaseChangeLog>

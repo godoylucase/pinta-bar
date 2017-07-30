@@ -106,6 +106,8 @@ public class BusinessServiceImpl implements BusinessService {
 			throws InvalidPurchaseOrderException, ClosedPurchaseOrderException, DataNotFoundException {
 		PurchaseOrder purchaseOrder = purchaseOrderRepository.findByUuid(purchaseOrderUuid)
 				.orElseThrow(() -> new DataNotFoundException(ErrorCode.PURCHASE_ORDER_NOT_FOUND));
+		User user = userRepository.findByUuid(orderingWS.getUserUuid())
+				.orElseThrow(() -> new DataNotFoundException(ErrorCode.USER_NOT_FOUND));
 
 		// just prototyping move this to a very more complex validation
 		if (!purchaseOrder.getUser().getUuid().equals(orderingWS.getUserUuid())
@@ -117,7 +119,7 @@ public class BusinessServiceImpl implements BusinessService {
 
 		// item detail rebuild from external resource and added into purchase order
 		purchaseOrder.getDetails()
-				.addAll(processPurchaseOrderDetailsFromMap(orderingWS.getPurchaseOrderLinesMap(), purchaseOrder));
+				.addAll(processPurchaseOrderDetailsFromMap(orderingWS.getPurchaseOrderLinesMap(), purchaseOrder, user));
 
 		return purchaseOrderDTOMapper.mapToDTO(purchaseOrder).orElse(null);
 	}
@@ -151,17 +153,18 @@ public class BusinessServiceImpl implements BusinessService {
 		return purchaseOrderDTO.getPurchaseOrderDetails()
 				.stream()
 				.map(pod -> {
-					PurchaseOrderDetailWS pows = new PurchaseOrderDetailWS();
-					pows.setMenuItemInstanceUuid(pod.getMenuItemInstance().getUuid());
-					pows.setMenuItemInstanceName(pod.getMenuItemInstance().getMenuItem().getName());
-					pows.setQuantity(pod.getQuantity());
-					pows.setPrice(pod.getMenuItemInstance().getPrice());
-					return pows;
+					PurchaseOrderDetailWS podws = new PurchaseOrderDetailWS();
+					podws.setMenuItemInstanceUuid(pod.getMenuItemInstance().getUuid());
+					podws.setMenuItemInstanceName(pod.getMenuItemInstance().getMenuItem().getName());
+					podws.setQuantity(pod.getQuantity());
+					podws.setPrice(pod.getMenuItemInstance().getPrice());
+					podws.setUserUuid(pod.getUserUuid());
+					return podws;
 				}).collect(Collectors.toList());
 	}
 
 	private List<PurchaseOrderDetail> processPurchaseOrderDetailsFromMap(Map<String, BigDecimal> purchaseOrderLinesMap,
-																		 PurchaseOrder purchaseOrder) throws DataNotFoundException {
+																		 PurchaseOrder purchaseOrder, User user) throws DataNotFoundException {
 		try {
 			return purchaseOrderLinesMap.entrySet().stream()
 					.map(entry -> {
@@ -170,12 +173,20 @@ public class BusinessServiceImpl implements BusinessService {
 						if (!menuItemInstance.isFullAvailable()) {
 							throw new IllegalArgumentException();
 						}
-						return new PurchaseOrderDetail(entry.getValue(), menuItemInstance, purchaseOrder);
+						return new PurchaseOrderDetail(entry.getValue(), menuItemInstance, purchaseOrder, user);
 					}).collect(Collectors.toList());
 		} catch (IllegalArgumentException ex) {
 			// temporal work around before implementing custom Function for above lambda expression
 			throw new DataNotFoundException(ErrorCode.MENU_ITEM_NOT_FOUND);
 		}
+	}
+
+	private Optional<PurchaseOrderDetail> getItemAlreadyOrderedByUser(MenuItemInstance menuItemInstance, PurchaseOrder purchaseOrder, User user) {
+		return purchaseOrder.getDetails()
+				.parallelStream()
+				.filter(detail -> detail.getMenuItemInstance().getUuid().equals(menuItemInstance.getUuid())
+						&& detail.getUser().getUuid().equals(user.getUuid()))
+				.findFirst();
 	}
 
 	private PurchaseOrder createOrder(User user, TableUnit tableUnit) {

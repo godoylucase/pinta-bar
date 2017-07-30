@@ -1,6 +1,7 @@
 package com.pintabar.entities;
 
 import com.pintabar.entities.base.TimestampedBaseEntity;
+import com.pintabar.entities.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,4 +34,13 @@ public class PurchaseOrderDetail extends TimestampedBaseEntity {
 	@ManyToOne
 	@JoinColumn(name = "purchase_order_id")
 	private PurchaseOrder purchaseOrder;
+
+	@OneToOne
+	@JoinColumn(name = "user_id")
+	private User user;
+
+	public void addQuantity(BigDecimal quantity) {
+		this.quantity = this.quantity.add(quantity);
+	}
+
 }
