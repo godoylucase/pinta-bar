@@ -22,5 +22,6 @@ import java.math.BigDecimal;
 public class PurchaseOrderDetailDTO extends BaseDTO implements IPurchaseOrderDetail {
 	private BigDecimal quantity = BigDecimal.ZERO;
 	private String purchaseOrderUuid;
+	private String userUuid;
 	private MenuItemInstanceDTO menuItemInstance;
 }

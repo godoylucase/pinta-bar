@@ -35,6 +35,9 @@ public class PurchaseOrderDetailDTOMapper implements GenericDTOMapper<PurchaseOr
 			if (purchaseOrderDetail.getPurchaseOrder() != null) {
 				purchaseOrderDetailDTO.setPurchaseOrderUuid(purchaseOrderDetail.getPurchaseOrder().getUuid());
 			}
+			if (purchaseOrderDetail.getUser() != null) {
+				purchaseOrderDetailDTO.setUserUuid(purchaseOrderDetail.getUser().getUuid());
+			}
 			purchaseOrderDetailDTO.setId(purchaseOrderDetail.getId());
 			purchaseOrderDetailDTO.setCreatedOn(purchaseOrderDetail.getCreatedOn());
 			purchaseOrderDetailDTO.setUpdatedOn(purchaseOrderDetail.getUpdatedOn());
